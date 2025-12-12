@@ -218,14 +218,17 @@ export default function Results() {
                 sx={{
                     display: 'flex',
                     gap: theme.spacing(2),
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    width: '100%',
+                    maxWidth: 960,
+                    mx: 'auto',
+                    overflowX: 'hidden'
                 }}
             >
                 <MinimalisticChart
                     options={{
                         chart: {
-                            height: 150,
-                            width: 400
+                            height: 150
                         }
                     }}
                 >

@@ -4,9 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 import {
     Box,
     Typography,
-    Grid,
     Paper,
     IconButton,
+    Collapse,
+    Fade,
     useTheme
 } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -19,9 +20,9 @@ import Results from './Results';
 
 export default function DashboardLayout() {
     const theme = useTheme();
-    const [showFilters, setShowFilters] = useState(true);
     const resultsPaperRef = useRef(null);
     const [resultsFull, setResultsFull] = useState(false);
+    const [showFilters, setShowFilters] = useState(true);
 
     useEffect(() => {
         function onFullChange() {
@@ -45,6 +46,9 @@ export default function DashboardLayout() {
         setShowFilters((prev) => !prev);
     };
 
+    const collapsedFilterWidth = 64;
+    const filterPanelWidth = showFilters ? 420 : collapsedFilterWidth;
+
     return (
         <Box
             borderRight="5px solid"
@@ -62,84 +66,205 @@ export default function DashboardLayout() {
                 <Header />
             </Box>
 
-            {/* Small "Filters" button when the panel is hidden */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    px: theme.spacing(4)
-                }}
-            >
-                {!showFilters && (
-                    <IconButton
-                        onClick={handleToggleFilters}
-                        size="small"
-                        aria-label="Show filters"
-                    >
-                        <TuneIcon />
-                    </IconButton>
-                )}
-            </Box>
-
             <Box
                 sx={{
                     mx: 'auto',
-                    px: theme.spacing(4),
-                    maxWidth: showFilters ? 1420 : 1000 // 420 filter + 1000 results
+                    px: {
+                        xs: theme.spacing(2),
+                        md: theme.spacing(4)
+                    },
+                    maxWidth: {
+                        xs: '100%',
+                        md: 1000 + filterPanelWidth
+                    },
+                    pb: theme.spacing(4),
+                    width: '100%',
+                    boxSizing: 'border-box'
                 }}
             >
-                <Grid container spacing={2}>
-                    {showFilters && (
-                        <Grid
-                            item
-                            xs={12}
-                            md="auto"
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', md: 'row' },
+                        gap: theme.spacing(2),
+                        alignItems: {
+                            xs: 'stretch',
+                            md: showFilters ? 'stretch' : 'flex-start'
+                        },
+                        justifyContent: {
+                            xs: 'stretch',
+                            md: showFilters ? 'stretch' : 'center'
+                        }
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: {
+                                xs: showFilters ? '100%' : collapsedFilterWidth,
+                                md: filterPanelWidth
+                            },
+                            maxWidth: {
+                                xs: showFilters ? '100%' : collapsedFilterWidth,
+                                md: filterPanelWidth
+                            },
+                            flexShrink: 0,
+                            transition: theme.transitions.create(
+                                ['width', 'max-width'],
+                                { duration: 300, easing: 'ease' }
+                            ),
+                            display: 'flex',
+                            justifyContent: {
+                                xs: 'center',
+                                md: 'flex-start'
+                            },
+                            alignSelf: {
+                                xs: showFilters ? 'stretch' : 'flex-start',
+                                md: showFilters ? 'stretch' : 'flex-start'
+                            }
+                        }}
+                    >
+                        <Paper
+                            elevation={12}
                             sx={{
-                                width: { xs: '100%', md: 420 },
-                                maxWidth: { xs: '100%', md: 420 },
-                                flexShrink: 0
+                                p: showFilters ? 2 : 0,
+                                boxSizing: 'border-box',
+                                overflow: 'hidden',
+                                width: {
+                                    xs: showFilters
+                                        ? '100%'
+                                        : collapsedFilterWidth,
+                                    md: '100%'
+                                },
+                                transition: theme.transitions.create(
+                                    ['padding', 'min-height', 'height'],
+                                    { duration: 300, easing: 'ease' }
+                                ),
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: showFilters ? 'stretch' : 'center',
+                                justifyContent: showFilters
+                                    ? 'flex-start'
+                                    : 'center',
+                                gap: showFilters ? 2 : 0,
+                                minHeight: showFilters
+                                    ? 'auto'
+                                    : collapsedFilterWidth,
+                                height: {
+                                    xs: 'auto',
+                                    md: showFilters
+                                        ? '100%'
+                                        : collapsedFilterWidth
+                                },
+                                flexGrow: showFilters ? 1 : 0
                             }}
                         >
-                            <Paper
-                                elevation={12}
+                            <Box
                                 sx={{
-                                    p: 2,
-                                    boxSizing: 'border-box'
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: showFilters
+                                        ? 'space-between'
+                                        : 'center',
+                                    width: '100%',
+                                    minHeight: showFilters
+                                        ? 32
+                                        : collapsedFilterWidth,
+                                    height: showFilters
+                                        ? 'auto'
+                                        : collapsedFilterWidth,
+                                    gap: showFilters ? 1 : 0
                                 }}
                             >
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                        mb: 2
-                                    }}
+                                <Collapse
+                                    orientation="horizontal"
+                                    in={showFilters}
+                                    collapsedSize={0}
+                                    sx={{ display: 'flex' }}
                                 >
-                                    <Typography variant="h5">
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ whiteSpace: 'nowrap', pr: 1 }}
+                                    >
                                         Input Panel
                                     </Typography>
-                                    <IconButton
-                                        size="small"
-                                        onClick={handleToggleFilters}
-                                        aria-label="Hide filters"
+                                </Collapse>
+                                <IconButton
+                                    size="small"
+                                    onClick={handleToggleFilters}
+                                    aria-label={
+                                        showFilters
+                                            ? 'Hide filters'
+                                            : 'Show filters'
+                                    }
+                                    sx={{
+                                        position: 'relative',
+                                        width: 32,
+                                        height: 32
+                                    }}
+                                >
+                                    <Fade
+                                        in={showFilters}
+                                        timeout={200}
+                                        unmountOnExit
                                     >
-                                        <CloseIcon fontSize="small" />
-                                    </IconButton>
+                                        <Box
+                                            component="span"
+                                            sx={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="small" />
+                                        </Box>
+                                    </Fade>
+                                    <Fade
+                                        in={!showFilters}
+                                        timeout={200}
+                                        unmountOnExit
+                                    >
+                                        <Box
+                                            component="span"
+                                            sx={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}
+                                        >
+                                            <TuneIcon fontSize="small" />
+                                        </Box>
+                                    </Fade>
+                                </IconButton>
+                            </Box>
+
+                            <Collapse
+                                in={showFilters}
+                                timeout={300}
+                                unmountOnExit
+                                sx={{ flexGrow: 1, width: '100%' }}
+                            >
+                                <Box sx={{ mt: 2, height: '100%' }}>
+                                    <FilterPanel />
                                 </Box>
+                            </Collapse>
+                        </Paper>
+                    </Box>
 
-                                <FilterPanel />
-                            </Paper>
-                        </Grid>
-                    )}
-
-                    <Grid
-                        item
-                        xs={12}
-                        md
+                    <Box
                         sx={{
                             flexGrow: 1,
                             minWidth: 0,
-                            maxWidth: 1000
+                            maxWidth: {
+                                xs: '100%',
+                                md: 1000
+                            },
+                            width: '100%',
+                            display: 'flex',
+                            alignSelf: 'stretch'
                         }}
                     >
                         <Paper
@@ -149,7 +274,11 @@ export default function DashboardLayout() {
                                 p: 2,
                                 height: resultsFull ? '100vh' : '100%',
                                 boxSizing: 'border-box',
-                                transition: 'all 200ms ease'
+                                transition: 'all 200ms ease',
+                                flexGrow: 1,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                width: '100%'
                             }}
                         >
                             <Box
@@ -212,8 +341,8 @@ export default function DashboardLayout() {
 
                             <Results />
                         </Paper>
-                    </Grid>
-                </Grid>
+                    </Box>
+                </Box>
             </Box>
         </Box>
     );
