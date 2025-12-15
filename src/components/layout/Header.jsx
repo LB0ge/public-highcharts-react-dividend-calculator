@@ -13,7 +13,7 @@ export default function Header() {
     return (
         <Box
             sx={{
-                mb: theme.spacing(2),
+                mb: theme.spacing(1),
                 pb: theme.spacing(1),
                 borderBottom: `2px solid ${theme.palette.divider}`
             }}

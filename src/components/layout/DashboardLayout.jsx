@@ -54,7 +54,7 @@ export default function DashboardLayout() {
                 bgcolor: 'background.default'
             }}
         >
-            <Box sx={{ p: theme.spacing(3) }}>
+            <Box sx={{ p: theme.spacing(2) }}>
                 <Header />
             </Box>
 
