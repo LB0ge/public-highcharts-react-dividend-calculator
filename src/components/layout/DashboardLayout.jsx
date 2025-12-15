@@ -1,15 +1,7 @@
 // src/components/layout/DashboardLayout.jsx
 
 import { useState, useRef, useEffect } from 'react';
-import {
-    Box,
-    Typography,
-    Paper,
-    IconButton,
-    Collapse,
-    Fade,
-    useTheme
-} from '@mui/material';
+import { Box, Typography, Paper, IconButton, useTheme } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import CloseIcon from '@mui/icons-material/Close';
@@ -108,15 +100,8 @@ export default function DashboardLayout() {
                                 md: filterPanelWidth
                             },
                             flexShrink: 0,
-                            transition: theme.transitions.create(
-                                ['width', 'max-width'],
-                                { duration: 300, easing: 'ease' }
-                            ),
                             display: 'flex',
-                            justifyContent: {
-                                xs: 'center',
-                                md: 'flex-start'
-                            },
+                            justifyContent: { xs: 'center', md: 'flex-start' },
                             alignSelf: {
                                 xs: showFilters ? 'stretch' : 'flex-start',
                                 md: showFilters ? 'stretch' : 'flex-start'
@@ -135,10 +120,6 @@ export default function DashboardLayout() {
                                         : collapsedFilterWidth,
                                     md: '100%'
                                 },
-                                transition: theme.transitions.create(
-                                    ['padding', 'min-height', 'height'],
-                                    { duration: 300, easing: 'ease' }
-                                ),
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: showFilters ? 'stretch' : 'center',
@@ -175,19 +156,14 @@ export default function DashboardLayout() {
                                     gap: showFilters ? 1 : 0
                                 }}
                             >
-                                <Collapse
-                                    orientation="horizontal"
-                                    in={showFilters}
-                                    collapsedSize={0}
-                                    sx={{ display: 'flex' }}
-                                >
+                                {showFilters && (
                                     <Typography
                                         variant="h5"
                                         sx={{ whiteSpace: 'nowrap', pr: 1 }}
                                     >
                                         Input Panel
                                     </Typography>
-                                </Collapse>
+                                )}
                                 <IconButton
                                     size="small"
                                     onClick={handleToggleFilters}
@@ -196,61 +172,19 @@ export default function DashboardLayout() {
                                             ? 'Hide filters'
                                             : 'Show filters'
                                     }
-                                    sx={{
-                                        position: 'relative',
-                                        width: 32,
-                                        height: 32
-                                    }}
                                 >
-                                    <Fade
-                                        in={showFilters}
-                                        timeout={200}
-                                        unmountOnExit
-                                    >
-                                        <Box
-                                            component="span"
-                                            sx={{
-                                                position: 'absolute',
-                                                inset: 0,
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}
-                                        >
-                                            <CloseIcon fontSize="small" />
-                                        </Box>
-                                    </Fade>
-                                    <Fade
-                                        in={!showFilters}
-                                        timeout={200}
-                                        unmountOnExit
-                                    >
-                                        <Box
-                                            component="span"
-                                            sx={{
-                                                position: 'absolute',
-                                                inset: 0,
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}
-                                        >
-                                            <TuneIcon fontSize="small" />
-                                        </Box>
-                                    </Fade>
+                                    {showFilters ? (
+                                        <CloseIcon fontSize="small" />
+                                    ) : (
+                                        <TuneIcon fontSize="small" />
+                                    )}
                                 </IconButton>
                             </Box>
-
-                            <Collapse
-                                in={showFilters}
-                                timeout={300}
-                                unmountOnExit
-                                sx={{ flexGrow: 1, width: '100%' }}
-                            >
+                            {showFilters && (
                                 <Box sx={{ mt: 2, height: '100%' }}>
                                     <FilterPanel />
                                 </Box>
-                            </Collapse>
+                            )}
                         </Paper>
                     </Box>
 
