@@ -19,32 +19,27 @@ function calculateScenario(inputs, scenarioType, caseKey) {
         dividendTaxPercent
     } = inputs;
 
-    // const totalPeriods = holdingPeriodYears;
-
     const priceGrowthAnnual = annualPercentToRate(
         stockAppreciationPercent[caseKey]
     );
 
-    const bankRateAnnual = annualPercentToRate(bankInterestPercent);
+    const bankRateAnnual = annualPercentToRate(bankInterestPercent),
+        dividendYieldAnnual = annualPercentToRate(dividendYieldPercent);
 
     let shares = numberOfShares,
-        price = pricePerShare;
-
-    const dividendYieldAnnual = annualPercentToRate(dividendYieldPercent);
-
-    let bankBalance = 0,
+        price = pricePerShare,
+        bankBalance = 0,
         cumulativeDividendsGross = 0,
         cumulativeDividendsNet = 0;
 
     const points = [];
 
-    function pushPoint(stepIndex) {
-        const yearFraction = stepIndex,
-            portfolioValue = shares * price,
+    function pushPoint(yearIndex) {
+        const portfolioValue = shares * price,
             totalValue = portfolioValue + bankBalance;
 
         points.push({
-            yearFraction,
+            yearIndex,
             totalValue,
             portfolioValue,
             bankBalance,
@@ -59,9 +54,9 @@ function calculateScenario(inputs, scenarioType, caseKey) {
     for (let step = 0; step < holdingPeriodYears; step++) {
         price = price * (1 + priceGrowthAnnual);
 
-        const dividendPerShare = price * dividendYieldAnnual;
-        const grossDividends = shares * dividendPerShare;
-        const netDividends = grossDividends * (1 - dividendTaxPercent / 100);
+        const dividendPerShare = price * dividendYieldAnnual,
+            grossDividends = shares * dividendPerShare,
+            netDividends = grossDividends * (1 - dividendTaxPercent / 100);
         cumulativeDividendsGross += grossDividends;
         cumulativeDividendsNet += netDividends;
 
