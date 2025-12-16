@@ -1,10 +1,10 @@
 // Dividend frequency removed — calculations use annual periods only (1 per year).
 
 // Convert annual percent rate to per period rate
-function annualToPeriodRate(annualPercent, periodsPerYear) {
+function annualPercentToRate(annualPercent) {
     if (annualPercent === 0) return 0;
     const annualRate = annualPercent / 100;
-    return Math.pow(1 + annualRate, 1 / periodsPerYear) - 1;
+    return annualRate;
 }
 
 // Calculate data data points for the different scenarios
@@ -19,26 +19,18 @@ function calculateScenario(inputs, scenarioType, caseKey) {
         dividendTaxPercent
     } = inputs;
 
-    // use annual periods for both dividends and bank interest
-    const periodsPerYear = 1;
-    const totalPeriods = holdingPeriodYears * periodsPerYear;
+    // const totalPeriods = holdingPeriodYears;
 
-    const priceGrowthPerPeriod = annualToPeriodRate(
-        stockAppreciationPercent[caseKey],
-        periodsPerYear
+    const priceGrowthAnnual = annualPercentToRate(
+        stockAppreciationPercent[caseKey]
     );
 
-    // Bank interest is annualized as well (one period per year)
-    const bankRatePerPeriod = annualToPeriodRate(
-        bankInterestPercent,
-        periodsPerYear
-    );
+    const bankRateAnnual = annualPercentToRate(bankInterestPercent);
 
     let shares = numberOfShares,
         price = pricePerShare;
 
-    const initialDividendYieldAnnual = dividendYieldPercent / 100;
-    let dividendYieldPerPeriod = initialDividendYieldAnnual / periodsPerYear;
+    const dividendYieldAnnual = annualPercentToRate(dividendYieldPercent);
 
     let bankBalance = 0,
         cumulativeDividendsGross = 0,
@@ -47,7 +39,7 @@ function calculateScenario(inputs, scenarioType, caseKey) {
     const points = [];
 
     function pushPoint(stepIndex) {
-        const yearFraction = stepIndex / periodsPerYear,
+        const yearFraction = stepIndex,
             portfolioValue = shares * price,
             totalValue = portfolioValue + bankBalance;
 
@@ -64,10 +56,10 @@ function calculateScenario(inputs, scenarioType, caseKey) {
     }
 
     pushPoint(0);
-    for (let step = 0; step < totalPeriods; step++) {
-        price = price * (1 + priceGrowthPerPeriod);
+    for (let step = 0; step < holdingPeriodYears; step++) {
+        price = price * (1 + priceGrowthAnnual);
 
-        const dividendPerShare = price * dividendYieldPerPeriod;
+        const dividendPerShare = price * dividendYieldAnnual;
         const grossDividends = shares * dividendPerShare;
         const netDividends = grossDividends * (1 - dividendTaxPercent / 100);
         cumulativeDividendsGross += grossDividends;
@@ -87,7 +79,7 @@ function calculateScenario(inputs, scenarioType, caseKey) {
             bankBalance = availableToInvest - cost;
         } else {
             // Bank scenario: grow bank balance and add new dividends
-            bankBalance = bankBalance * (1 + bankRatePerPeriod) + netDividends;
+            bankBalance = bankBalance * (1 + bankRateAnnual) + netDividends;
         }
 
         pushPoint(step + 1);
