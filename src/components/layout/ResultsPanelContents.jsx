@@ -37,7 +37,7 @@ export default function ResultsPanelContents() {
                 gap: theme.spacing(3),
                 width: '100%',
                 height: '100%',
-                overflow: 'hidden'
+                overflow: 'visible'
                 // p: 0
             }}
         >
