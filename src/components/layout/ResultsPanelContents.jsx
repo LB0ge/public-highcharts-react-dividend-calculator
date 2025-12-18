@@ -187,6 +187,10 @@ export default function ResultsPanelContents() {
                         lineColor={theme.palette.divider}
                         title={{ text: 'Year' }}
                     />
+                    <Tooltip
+                        shared={true}
+                        headerFormat="Estimated total value after <strong>{point.x}</strong> years:<br>"
+                    />
                     <SplineSeries
                         data={totalReinvestmentValueExpected}
                         name="Reinvest"

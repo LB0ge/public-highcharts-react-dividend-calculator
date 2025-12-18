@@ -5,12 +5,7 @@ import MinimalisticChart from './MinimalisticChart';
 export default function MinimalisticBarChart({ children }) {
     return (
         <MinimalisticChart>
-            <Legend
-                // reversed={true}
-                symbolHeight={15}
-                symbolWidth={15}
-                symbolRadius={4}
-            />
+            <Legend symbolHeight={15} symbolWidth={15} symbolRadius={4} />
             {children}
         </MinimalisticChart>
     );
