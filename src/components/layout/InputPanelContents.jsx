@@ -1,11 +1,11 @@
-import { Box, Divider, Stack, Button, useTheme } from '@mui/material';
+import { Box, Stack, useTheme } from '@mui/material';
 
-import PositionSection from '../filters/PositionSection';
-import DividendSection from '../filters/DividendSection';
-import GrowthSection from '../filters/GrowthSection';
-import BankTaxSection from '../filters/BankTaxSection';
+import PositionSection from '../inputs/PositionSection';
+import DividendSection from '../inputs/DividendSection';
+import GrowthSection from '../inputs/GrowthSection';
+import BankTaxSection from '../inputs/BankTaxSection';
 
-export default function FilterPanel() {
+export default function InputPanelContents() {
     const theme = useTheme();
 
     return (
@@ -17,9 +17,8 @@ export default function FilterPanel() {
                 height: '100%'
             }}
         >
-            <Divider sx={{ mb: 0 }} />
             <Stack
-                spacing={theme.spacing(2.5)}
+                spacing={theme.spacing(2)}
                 sx={{
                     flexGrow: 1,
                     overflowY: 'auto',

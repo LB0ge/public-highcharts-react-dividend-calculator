@@ -1,14 +1,15 @@
 // src/components/layout/DashboardLayout.jsx
 
 import { useState, useRef, useEffect } from 'react';
-import { Box, Typography, Paper, IconButton, useTheme } from '@mui/material';
+import { Box, Paper, IconButton, useTheme } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import CloseIcon from '@mui/icons-material/Close';
 import TuneIcon from '@mui/icons-material/Tune';
 import Header from './Header';
-import FilterPanel from './InputPanel';
-import Results from './Results';
+import InputPanelContents from './InputPanelContents';
+import ResultsPanelContents from './ResultsPanelContents';
+import Panel from './Panel';
 
 export default function DashboardLayout() {
     const theme = useTheme();
@@ -139,50 +140,40 @@ export default function DashboardLayout() {
                                 flexGrow: showFilters ? 1 : 0
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: showFilters
-                                        ? 'space-between'
-                                        : 'center',
-                                    width: '100%',
-                                    minHeight: showFilters
-                                        ? 32
-                                        : collapsedFilterWidth,
-                                    height: showFilters
-                                        ? 'auto'
-                                        : collapsedFilterWidth,
-                                    gap: showFilters ? 1 : 0
-                                }}
-                            >
-                                {showFilters && (
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ whiteSpace: 'nowrap', pr: 1 }}
-                                    >
-                                        Input Panel
-                                    </Typography>
-                                )}
-                                <IconButton
-                                    size="small"
-                                    onClick={handleToggleFilters}
-                                    aria-label={
-                                        showFilters
-                                            ? 'Hide filters'
-                                            : 'Show filters'
+                            {showFilters ? (
+                                <Panel
+                                    title="Input Panel"
+                                    action={
+                                        <IconButton
+                                            size="small"
+                                            onClick={handleToggleFilters}
+                                            aria-label={'Hide filters'}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
                                     }
                                 >
-                                    {showFilters ? (
-                                        <CloseIcon fontSize="small" />
-                                    ) : (
+                                    <Box sx={{ height: '100%' }}>
+                                        <InputPanelContents />
+                                    </Box>
+                                </Panel>
+                            ) : (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '100%',
+                                        height: collapsedFilterWidth
+                                    }}
+                                >
+                                    <IconButton
+                                        size="small"
+                                        onClick={handleToggleFilters}
+                                        aria-label={'Show filters'}
+                                    >
                                         <TuneIcon fontSize="small" />
-                                    )}
-                                </IconButton>
-                            </Box>
-                            {showFilters && (
-                                <Box sx={{ mt: 2, height: '100%' }}>
-                                    <FilterPanel />
+                                    </IconButton>
                                 </Box>
                             )}
                         </Paper>
@@ -215,65 +206,60 @@ export default function DashboardLayout() {
                                 width: '100%'
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    mb: 2
-                                }}
-                            >
-                                <Typography variant="h5">Results</Typography>
-                                <IconButton
-                                    size="small"
-                                    aria-label={
-                                        resultsFull
-                                            ? 'Exit fullscreen'
-                                            : 'Open results fullscreen'
-                                    }
-                                    onClick={async () => {
-                                        try {
-                                            if (!resultsFull) {
-                                                if (
-                                                    resultsPaperRef.current
-                                                        ?.requestFullscreen
-                                                ) {
-                                                    await resultsPaperRef.current.requestFullscreen();
-                                                } else if (
-                                                    resultsPaperRef.current
-                                                        ?.webkitRequestFullscreen
-                                                ) {
-                                                    // Safari
-                                                    resultsPaperRef.current.webkitRequestFullscreen();
-                                                }
-                                            } else {
-                                                if (
-                                                    document.fullscreenElement
-                                                ) {
-                                                    await document.exitFullscreen();
-                                                } else if (
-                                                    document.webkitFullscreenElement
-                                                ) {
-                                                    document.webkitExitFullscreen();
-                                                }
-                                            }
-                                        } catch (err) {
-                                            console.warn(
-                                                'Fullscreen toggle failed',
-                                                err
-                                            );
+                            <Panel
+                                title="Results"
+                                action={
+                                    <IconButton
+                                        size="small"
+                                        aria-label={
+                                            resultsFull
+                                                ? 'Exit fullscreen'
+                                                : 'Open results fullscreen'
                                         }
-                                    }}
-                                >
-                                    {resultsFull ? (
-                                        <FullscreenExitIcon />
-                                    ) : (
-                                        <FullscreenIcon />
-                                    )}
-                                </IconButton>
-                            </Box>
-
-                            <Results />
+                                        onClick={async () => {
+                                            try {
+                                                if (!resultsFull) {
+                                                    if (
+                                                        resultsPaperRef.current
+                                                            ?.requestFullscreen
+                                                    ) {
+                                                        await resultsPaperRef.current.requestFullscreen();
+                                                    } else if (
+                                                        resultsPaperRef.current
+                                                            ?.webkitRequestFullscreen
+                                                    ) {
+                                                        // Safari
+                                                        resultsPaperRef.current.webkitRequestFullscreen();
+                                                    }
+                                                } else {
+                                                    if (
+                                                        document.fullscreenElement
+                                                    ) {
+                                                        await document.exitFullscreen();
+                                                    } else if (
+                                                        document.webkitFullscreenElement
+                                                    ) {
+                                                        document.webkitExitFullscreen();
+                                                    }
+                                                }
+                                            } catch (err) {
+                                                console.warn(
+                                                    'Fullscreen toggle failed',
+                                                    err
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        {resultsFull ? (
+                                            <FullscreenExitIcon />
+                                        ) : (
+                                            <FullscreenIcon />
+                                        )}
+                                    </IconButton>
+                                }
+                            >
+                                <ResultsPanelContents />
+                            </Panel>
                         </Paper>
                     </Box>
                 </Box>

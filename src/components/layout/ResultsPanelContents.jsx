@@ -1,11 +1,13 @@
 import { useCalculator } from '../../context/useCalculator';
+import { useState } from 'react';
 import {
     Box,
-    Divider,
     Card,
     CardContent,
     Typography,
-    useTheme
+    useTheme,
+    Switch,
+    FormControlLabel
 } from '@mui/material';
 
 import { Title, XAxis, Tooltip, Legend, PlotOptions } from '@highcharts/react';
@@ -16,63 +18,54 @@ import MinimalisticChart from '../charts/MinimalisticChart';
 import Chart from '../charts/Chart';
 import { formatCurrency } from '../../utils/currency';
 
-export default function Results() {
+export default function ResultsPanelContents() {
     const theme = useTheme();
     const { results } = useCalculator();
-    console.log('Results component render', results);
+    const [showComposition, setShowComposition] = useState(false);
 
     const totalReinvestmentValueExpected = results.reinvest.expected.map(
-        (point) => point.totalValue
-    );
-    const totalValueNoReinvestmentExpected = results.bank.expected.map(
-        (point) => point.totalValue
-    );
-
-    const totalReinvestmentValueLower = results.reinvest.lower.map(
-        (point) => point.totalValue
-    );
-    const totalReinvestmentValueUpper = results.reinvest.upper.map(
-        (point) => point.totalValue
-    );
-
-    const totalReinvestmentValueLowerUpper = totalReinvestmentValueLower.map(
-        (lowerValue, index) => [lowerValue, totalReinvestmentValueUpper[index]]
-    );
-
-    const finalReinvestmentValue =
-        totalReinvestmentValueExpected[
-            totalReinvestmentValueExpected.length - 1
-        ];
-    const finalBankValue =
-        totalValueNoReinvestmentExpected[
-            totalValueNoReinvestmentExpected.length - 1
-        ];
-
-    // composition components
-    // read precomputed composition from results.finalSummary
-    const comp = results.finalSummary || {};
-    const reinvestComp = (comp.reinvestComposition &&
-        comp.reinvestComposition.expected) || {
-        initial: 0,
-        dividends: 0,
-        growth: 0
-    };
-    const bankComp = (comp.bankComposition &&
-        comp.bankComposition.expected) || {
-        initial: 0,
-        dividends: 0,
-        growth: 0
-    };
-
-    const principal = reinvestComp.initial || 0;
-    const reinvestDividends = reinvestComp.dividends || 0;
-    const reinvestGrowth = reinvestComp.growth || 0;
-
-    const bankDividends = bankComp.dividends || 0;
-    const bankGrowth = bankComp.growth || 0;
-
-    // data is yearly now; one tick per year
-    const periodsPerYear = 1;
+            (point) => point.totalValue
+        ),
+        totalValueNoReinvestmentExpected = results.bank.expected.map(
+            (point) => point.totalValue
+        ),
+        totalReinvestmentValueLower = results.reinvest.lower.map(
+            (point) => point.totalValue
+        ),
+        totalReinvestmentValueUpper = results.reinvest.upper.map(
+            (point) => point.totalValue
+        ),
+        totalReinvestmentValueLowerUpper = totalReinvestmentValueLower.map(
+            (lowerValue, index) => [
+                lowerValue,
+                totalReinvestmentValueUpper[index]
+            ]
+        ),
+        finalReinvestmentValue =
+            totalReinvestmentValueExpected[
+                totalReinvestmentValueExpected.length - 1
+            ],
+        finalBankValue =
+            totalValueNoReinvestmentExpected[
+                totalValueNoReinvestmentExpected.length - 1
+            ],
+        comp = results.finalSummary || {},
+        reinvestComp = (comp.reinvestComposition &&
+            comp.reinvestComposition.expected) || {
+            initial: 0,
+            dividends: 0,
+            growth: 0
+        },
+        bankComp = (comp.bankComposition && comp.bankComposition.expected) || {
+            initial: 0,
+            dividends: 0,
+            growth: 0
+        },
+        principal = reinvestComp.initial || 0,
+        reinvestDividends = reinvestComp.dividends || 0,
+        reinvestGrowth = reinvestComp.growth || 0,
+        bankDividends = bankComp.dividends || 0,
+        bankGrowth = bankComp.growth || 0;
 
     return (
         <Box
@@ -86,7 +79,6 @@ export default function Results() {
                 // p: 0
             }}
         >
-            <Divider sx={{ mb: 0 }} />
             {/* KPI Cards */}
             <Box
                 sx={{
@@ -280,12 +272,43 @@ export default function Results() {
                 </MinimalisticChart>
             </Box>
 
-            {/* Main spline chart */}
-            <Box sx={{ flex: 1, minHeight: 0 }}>
+            {/* Main chart with toggle */}
+            <Box sx={{ flex: 1, minHeight: 0, position: 'relative' }}>
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: theme.spacing(-1),
+                        // left: theme.spacing(0),
+                        zIndex: 1,
+                        bgcolor: 'background.paper',
+                        border: `1px solid ${theme.palette.divider}`,
+                        borderRadius: 1,
+                        px: 1,
+                        py: 0.25
+                    }}
+                >
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                size="small"
+                                checked={showComposition}
+                                onChange={(e) =>
+                                    setShowComposition(e.target.checked)
+                                }
+                            />
+                        }
+                        label="Show composition"
+                        sx={{
+                            m: 0,
+                            '& .MuiFormControlLabel-label': { fontSize: 12 }
+                        }}
+                    />
+                </Box>
+
                 <Chart>
                     <Title>Investment Value Over Time</Title>
                     <XAxis
-                        tickInterval={periodsPerYear}
+                        tickInterval={1}
                         lineColor={theme.palette.divider}
                         title={{ text: 'Year' }}
                     />
