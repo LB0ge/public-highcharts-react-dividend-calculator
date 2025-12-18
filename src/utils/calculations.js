@@ -161,3 +161,65 @@ export function runAllCalculations(inputs) {
         finalSummary: summary
     };
 }
+
+// Build a lightweight view model for UI components from raw results
+export function buildResultsViewModel(results) {
+    const totalReinvestmentValueExpected = (
+        results.reinvest.expected || []
+    ).map((point) => point.totalValue);
+    const totalValueNoReinvestmentExpected = (results.bank.expected || []).map(
+        (point) => point.totalValue
+    );
+
+    const totalReinvestmentValueLower = (results.reinvest.lower || []).map(
+        (point) => point.totalValue
+    );
+    const totalReinvestmentValueUpper = (results.reinvest.upper || []).map(
+        (point) => point.totalValue
+    );
+    const totalReinvestmentValueLowerUpper = totalReinvestmentValueLower.map(
+        (lowerValue, index) => [lowerValue, totalReinvestmentValueUpper[index]]
+    );
+
+    const finalReinvestmentValue =
+        totalReinvestmentValueExpected[
+            Math.max(0, totalReinvestmentValueExpected.length - 1)
+        ] || 0;
+    const finalBankValue =
+        totalValueNoReinvestmentExpected[
+            Math.max(0, totalValueNoReinvestmentExpected.length - 1)
+        ] || 0;
+
+    const comp = results.finalSummary || {};
+    const reinvestComp = (comp.reinvestComposition &&
+        comp.reinvestComposition.expected) || {
+        initial: 0,
+        dividends: 0,
+        growth: 0
+    };
+    const bankComp = (comp.bankComposition &&
+        comp.bankComposition.expected) || {
+        initial: 0,
+        dividends: 0,
+        growth: 0
+    };
+
+    const principal = reinvestComp.initial || 0;
+    const reinvestDividends = reinvestComp.dividends || 0;
+    const reinvestGrowth = reinvestComp.growth || 0;
+    const bankDividends = bankComp.dividends || 0;
+    const bankGrowth = bankComp.growth || 0;
+
+    return {
+        totalReinvestmentValueExpected,
+        totalValueNoReinvestmentExpected,
+        totalReinvestmentValueLowerUpper,
+        finalReinvestmentValue,
+        finalBankValue,
+        principal,
+        reinvestDividends,
+        reinvestGrowth,
+        bankDividends,
+        bankGrowth
+    };
+}

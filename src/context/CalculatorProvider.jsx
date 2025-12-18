@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { CalculatorContext } from './CalculatorContext';
-import { runAllCalculations } from '../utils/calculations';
+import {
+    runAllCalculations,
+    buildResultsViewModel
+} from '../utils/calculations';
 
 const defaultInputs = {
     numberOfShares: 180,
@@ -22,9 +25,8 @@ export function CalculatorProvider({ children }) {
 
     // const initialInvestment = inputs.numberOfShares * inputs.pricePerShare;
 
-    const results = useMemo(() => {
-        return runAllCalculations(inputs);
-    }, [inputs]);
+    const results = useMemo(() => runAllCalculations(inputs), [inputs]);
+    const view = useMemo(() => buildResultsViewModel(results), [results]);
 
     function setInput(key, value) {
         setInputs((prev) => ({ ...prev, [key]: value }));
@@ -33,7 +35,8 @@ export function CalculatorProvider({ children }) {
     const value = {
         inputs,
         setInput,
-        results
+        results,
+        view
     };
 
     return (

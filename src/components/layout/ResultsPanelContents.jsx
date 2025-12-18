@@ -13,52 +13,21 @@ import { formatCurrency } from '../../utils/currency';
 
 export default function ResultsPanelContents() {
     const theme = useTheme();
-    const { results } = useCalculator();
+    const { results, view } = useCalculator();
     const [showComposition, setShowComposition] = useState(false);
 
-    const totalReinvestmentValueExpected = results.reinvest.expected.map(
-            (point) => point.totalValue
-        ),
-        totalValueNoReinvestmentExpected = results.bank.expected.map(
-            (point) => point.totalValue
-        ),
-        totalReinvestmentValueLower = results.reinvest.lower.map(
-            (point) => point.totalValue
-        ),
-        totalReinvestmentValueUpper = results.reinvest.upper.map(
-            (point) => point.totalValue
-        ),
-        totalReinvestmentValueLowerUpper = totalReinvestmentValueLower.map(
-            (lowerValue, index) => [
-                lowerValue,
-                totalReinvestmentValueUpper[index]
-            ]
-        ),
-        finalReinvestmentValue =
-            totalReinvestmentValueExpected[
-                totalReinvestmentValueExpected.length - 1
-            ],
-        finalBankValue =
-            totalValueNoReinvestmentExpected[
-                totalValueNoReinvestmentExpected.length - 1
-            ],
-        comp = results.finalSummary || {},
-        reinvestComp = (comp.reinvestComposition &&
-            comp.reinvestComposition.expected) || {
-            initial: 0,
-            dividends: 0,
-            growth: 0
-        },
-        bankComp = (comp.bankComposition && comp.bankComposition.expected) || {
-            initial: 0,
-            dividends: 0,
-            growth: 0
-        },
-        principal = reinvestComp.initial || 0,
-        reinvestDividends = reinvestComp.dividends || 0,
-        reinvestGrowth = reinvestComp.growth || 0,
-        bankDividends = bankComp.dividends || 0,
-        bankGrowth = bankComp.growth || 0;
+    const {
+        totalReinvestmentValueExpected,
+        totalValueNoReinvestmentExpected,
+        totalReinvestmentValueLowerUpper,
+        finalReinvestmentValue,
+        finalBankValue,
+        principal,
+        reinvestDividends,
+        reinvestGrowth,
+        bankDividends,
+        bankGrowth
+    } = view;
 
     return (
         <Box
@@ -116,7 +85,7 @@ export default function ResultsPanelContents() {
                 sx={{
                     display: 'flex',
                     gap: theme.spacing(2),
-                    justifyContent: 'center',
+                    justifyContent: 'left',
                     width: '100%',
                     maxWidth: 960,
                     mx: 'auto',
