@@ -1,14 +1,6 @@
 import { useCalculator } from '../../context/useCalculator';
 import { useState } from 'react';
-import {
-    Box,
-    Card,
-    CardContent,
-    Typography,
-    useTheme,
-    Switch,
-    FormControlLabel
-} from '@mui/material';
+import { Box, useTheme, Switch, FormControlLabel } from '@mui/material';
 
 import { Title, XAxis, Tooltip, Legend, PlotOptions } from '@highcharts/react';
 import { AreaSplineRangeSeries } from '@highcharts/react/series/AreaSplineRange';
@@ -16,6 +8,7 @@ import { SplineSeries } from '@highcharts/react/series/Spline';
 import { BarSeries } from '@highcharts/react/series/Bar';
 import MinimalisticChart from '../charts/MinimalisticChart';
 import Chart from '../charts/Chart';
+import KpiCard from './KpiCard';
 import { formatCurrency } from '../../utils/currency';
 
 export default function ResultsPanelContents() {
@@ -94,115 +87,28 @@ export default function ResultsPanelContents() {
                     width: '100%'
                 }}
             >
-                <Card
-                    sx={{
-                        background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.success.light}08 100%)`,
-                        border: `1px solid ${theme.palette.divider}`,
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        '&:hover': {
-                            transform: 'translateY(-4px)',
-                            boxShadow: `0 12px 24px rgba(31, 41, 55, 0.15)`
-                        }
-                    }}
-                >
-                    <CardContent>
-                        <Typography
-                            color="text.secondary"
-                            gutterBottom
-                            variant="subtitle2"
-                            sx={{ fontWeight: 600 }}
-                        >
-                            Reinvestment Scenario
-                        </Typography>
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                background: `linear-gradient(135deg, ${theme.palette.success.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                fontWeight: 700
-                            }}
-                        >
-                            {formatCurrency(finalReinvestmentValue)}
-                        </Typography>
-                    </CardContent>
-                </Card>
-
-                <Card
-                    sx={{
-                        background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.primary.light}08 100%)`,
-                        border: `1px solid ${theme.palette.divider}`,
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        '&:hover': {
-                            transform: 'translateY(-4px)',
-                            boxShadow: `0 12px 24px rgba(31, 41, 55, 0.15)`
-                        }
-                    }}
-                >
-                    <CardContent>
-                        <Typography
-                            color="text.secondary"
-                            gutterBottom
-                            variant="subtitle2"
-                            sx={{ fontWeight: 600 }}
-                        >
-                            Bank Scenario
-                        </Typography>
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                fontWeight: 700
-                            }}
-                        >
-                            {formatCurrency(finalBankValue)}
-                        </Typography>
-                    </CardContent>
-                </Card>
-
-                <Card
-                    sx={{
-                        background: `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${theme.palette.secondary.light}08 100%)`,
-                        border: `1px solid ${theme.palette.divider}`,
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        '&:hover': {
-                            transform: 'translateY(-4px)',
-                            boxShadow: `0 12px 24px rgba(31, 41, 55, 0.15)`
-                        }
-                    }}
-                >
-                    <CardContent>
-                        <Typography
-                            color="text.secondary"
-                            gutterBottom
-                            variant="subtitle2"
-                            sx={{ fontWeight: 600 }}
-                        >
-                            Extra from reinvestment
-                        </Typography>
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.primary.main} 100%)`,
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                fontWeight: 700
-                            }}
-                        >
-                            {formatCurrency(
-                                (results.finalSummary &&
-                                    results.finalSummary
-                                        .extraFromReinvestExpected) ||
-                                    0
-                            )}
-                        </Typography>
-                    </CardContent>
-                </Card>
+                <KpiCard
+                    title="Reinvestment Scenario"
+                    value={formatCurrency(finalReinvestmentValue)}
+                    color="success"
+                    valueGradientTo="secondary"
+                />
+                <KpiCard
+                    title="Bank Scenario"
+                    value={formatCurrency(finalBankValue)}
+                    color="primary"
+                    valueGradientTo="secondary"
+                />
+                <KpiCard
+                    title="Extra from reinvestment"
+                    value={formatCurrency(
+                        (results.finalSummary &&
+                            results.finalSummary.extraFromReinvestExpected) ||
+                            0
+                    )}
+                    color="secondary"
+                    valueGradientTo="primary"
+                />
             </Box>
 
             {/* Composition chart: minimalistic stacked bar */}
