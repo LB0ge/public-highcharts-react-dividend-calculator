@@ -4,6 +4,10 @@ import { useCalculator } from '../../context/useCalculator';
 
 export default function BankTaxSection() {
     const { inputs, setInput } = useCalculator();
+    const interestRateMin = 0,
+        interestRateMax = 10,
+        dividendTaxMin = 0,
+        dividendTaxMax = 50;
 
     return (
         <Box sx={{ display: 'grid', gap: 2 }}>
@@ -17,9 +21,20 @@ export default function BankTaxSection() {
                     aria-label="Interest Rate"
                     value={inputs.bankInterestPercent ?? 0}
                     valueLabelDisplay="auto"
+                    valueLabelFormat={(value) => value + ' %'}
                     step={0.1}
-                    min={0.0}
-                    max={10.0}
+                    min={interestRateMin}
+                    max={interestRateMax}
+                    marks={[
+                        {
+                            value: interestRateMin,
+                            label: interestRateMin + '%'
+                        },
+                        {
+                            value: interestRateMax,
+                            label: interestRateMax + '%'
+                        }
+                    ]}
                     onChange={(_, value) =>
                         setInput('bankInterestPercent', value)
                     }
@@ -27,14 +42,19 @@ export default function BankTaxSection() {
             </Box>
 
             <Box sx={{ px: 2 }}>
-                <Typography variant="body2">Dividend tax %</Typography>
+                <Typography variant="body2">Dividend tax</Typography>
                 <Slider
                     aria-label="Dividend tax"
                     value={inputs.dividendTaxPercent ?? 0}
                     valueLabelDisplay="auto"
+                    valueLabelFormat={(value) => value + ' %'}
                     step={1}
-                    min={0}
-                    max={50}
+                    min={dividendTaxMin}
+                    max={dividendTaxMax}
+                    marks={[
+                        { value: dividendTaxMin, label: dividendTaxMin + '%' },
+                        { value: dividendTaxMax, label: dividendTaxMax + '%' }
+                    ]}
                     onChange={(_, value) =>
                         setInput('dividendTaxPercent', value)
                     }

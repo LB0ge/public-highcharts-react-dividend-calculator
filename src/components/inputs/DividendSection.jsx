@@ -6,6 +6,9 @@ import { useCalculator } from '../../context/useCalculator';
 export default function DividendSection() {
     const { inputs, setInput } = useCalculator();
 
+    const dividendYieldMin = 0.0,
+        dividendYieldMax = 20.0;
+
     const handleChange = (key) => (value) => {
         setInput(key, value === '' ? 0 : value);
     };
@@ -22,9 +25,20 @@ export default function DividendSection() {
                     aria-label="Annual dividend yield"
                     value={inputs.dividendYieldPercent ?? 0}
                     valueLabelDisplay="auto"
+                    valueLabelFormat={(value) => value + ' %'}
                     step={0.1}
-                    min={0.0}
-                    max={20.0}
+                    min={dividendYieldMin}
+                    max={dividendYieldMax}
+                    marks={[
+                        {
+                            value: dividendYieldMin,
+                            label: dividendYieldMin + '%'
+                        },
+                        {
+                            value: dividendYieldMax,
+                            label: dividendYieldMax + '%'
+                        }
+                    ]}
                     onChange={(_, value) =>
                         setInput('dividendYieldPercent', value)
                     }
