@@ -190,6 +190,15 @@ const customTheme = createTheme({
                         color: '#FFFFFF',
                         padding: '4px 8px'
                     }
+                },
+                mark: {
+                    display: 'none'
+                },
+                markLabel: {
+                    color: 'inherit',
+                    '&.MuiSlider-markLabelActive': {
+                        color: 'inherit'
+                    }
                 }
             }
         },
@@ -211,5 +220,59 @@ const customTheme = createTheme({
         }
     }
 });
+
+// Use palette-driven values so labels inherit text.secondary
+customTheme.components.MuiSlider.styleOverrides.markLabel = {
+    color: customTheme.palette.text.secondary,
+    '&.MuiSlider-markLabelActive': {
+        color: customTheme.palette.text.secondary
+    }
+};
+
+// Align component overrides to use base palette values
+// Typography
+customTheme.typography.subtitle2.color = customTheme.palette.text.secondary;
+customTheme.typography.body2.color = customTheme.palette.text.secondary;
+
+// Card
+customTheme.components.MuiCard.styleOverrides.root.border = `1px solid ${customTheme.palette.divider}`;
+
+// OutlinedInput
+customTheme.components.MuiOutlinedInput.styleOverrides.notchedOutline.borderColor =
+    customTheme.palette.divider;
+customTheme.components.MuiOutlinedInput.styleOverrides.root[
+    '&:hover .MuiOutlinedInput-notchedOutline'
+].borderColor = customTheme.palette.divider;
+customTheme.components.MuiOutlinedInput.styleOverrides.root[
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline'
+].borderColor = customTheme.palette.secondary.main;
+
+// Slider
+const sliderRoot = customTheme.components.MuiSlider.styleOverrides.root;
+sliderRoot['& .MuiSlider-rail'].backgroundColor = customTheme.palette.divider;
+sliderRoot['& .MuiSlider-track'].backgroundColor =
+    customTheme.palette.secondary.main;
+sliderRoot['& .MuiSlider-thumb'].backgroundColor =
+    customTheme.palette.secondary.main;
+sliderRoot['& .MuiSlider-valueLabelCircle'].backgroundColor =
+    customTheme.palette.primary.main;
+sliderRoot['& .MuiSlider-valueLabel'].backgroundColor =
+    customTheme.palette.primary.main;
+sliderRoot['& .MuiSlider-valueLabel'].color =
+    customTheme.palette.primary.contrastText;
+
+// Button (outlined)
+customTheme.components.MuiButton.styleOverrides.outlined.borderColor =
+    customTheme.palette.divider;
+customTheme.components.MuiButton.styleOverrides.outlined[
+    '&:hover'
+].borderColor = customTheme.palette.primary.main;
+customTheme.components.MuiButton.styleOverrides.outlined[
+    '&:hover'
+].backgroundColor = customTheme.palette.action.hover;
+
+// Divider
+customTheme.components.MuiDivider.styleOverrides.root.borderColor =
+    customTheme.palette.divider;
 
 export default customTheme;
