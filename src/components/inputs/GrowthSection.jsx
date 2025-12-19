@@ -4,6 +4,7 @@ import { useCalculator } from '../../context/useCalculator';
 
 export default function GrowthSection() {
     const { inputs, setInput } = useCalculator();
+    const step = 0.1;
 
     const handleNestedChange = (key, field) => (value) => {
         const prev = inputs[key] || { lower: 0, expected: 0, upper: 0 };
@@ -24,7 +25,9 @@ export default function GrowthSection() {
                     <NumberField
                         label="Lower"
                         value={inputs.stockAppreciationPercent?.lower ?? 0}
-                        step={0.1}
+                        step={step}
+                        min={-99.9}
+                        max={inputs.stockAppreciationPercent?.expected - step}
                         unit="%"
                         onChange={handleNestedChange(
                             'stockAppreciationPercent',
@@ -34,7 +37,9 @@ export default function GrowthSection() {
                     <NumberField
                         label="Expected"
                         value={inputs.stockAppreciationPercent?.expected ?? 0}
-                        step={0.1}
+                        step={step}
+                        min={inputs.stockAppreciationPercent?.lower + step}
+                        max={inputs.stockAppreciationPercent?.upper - step}
                         unit="%"
                         onChange={handleNestedChange(
                             'stockAppreciationPercent',
@@ -44,7 +49,9 @@ export default function GrowthSection() {
                     <NumberField
                         label="Upper"
                         value={inputs.stockAppreciationPercent?.upper ?? 0}
-                        step={0.1}
+                        step={step}
+                        min={inputs.stockAppreciationPercent?.expected + step}
+                        max={1000}
                         unit="%"
                         onChange={handleNestedChange(
                             'stockAppreciationPercent',
