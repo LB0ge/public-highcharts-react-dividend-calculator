@@ -93,11 +93,12 @@ function NumberField({
                             >
                                 {unit && (
                                     <InputAdornment
-                                        position="end"
+                                        position="start"
                                         sx={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            px: 1,
+                                            justifyContent: 'center',
+                                            px: 0,
                                             color: 'text.secondary',
                                             whiteSpace: 'nowrap'
                                         }}
