@@ -123,32 +123,32 @@ export function runAllCalculations(inputs) {
         const initialInvestment =
             (inputs.numberOfShares || 0) * (inputs.pricePerShare || 0);
 
-        const reinvest_dividends = reinvestLast
+        const reinvestDividends = reinvestLast
             ? reinvestLast.cumulativeDividendsNet || 0
             : 0;
-        let reinvest_growth = reinvestLast
-            ? reinvestLast.totalValue - initialInvestment - reinvest_dividends
+        let reinvestGrowth = reinvestLast
+            ? reinvestLast.totalValue - initialInvestment - reinvestDividends
             : 0;
-        if (reinvest_growth < 0) reinvest_growth = 0;
+        if (reinvestGrowth < 0) reinvestGrowth = 0;
 
-        const bank_dividends = bankLast
+        const bankDividends = bankLast
             ? bankLast.cumulativeDividendsNet || 0
             : 0;
-        let bank_growth = bankLast
-            ? bankLast.totalValue - initialInvestment - bank_dividends
+        let bankGrowth = bankLast
+            ? bankLast.totalValue - initialInvestment - bankDividends
             : 0;
-        if (bank_growth < 0) bank_growth = 0;
+        if (bankGrowth < 0) bankGrowth = 0;
 
         summary.reinvestComposition[key] = {
             initial: initialInvestment,
-            dividends: reinvest_dividends,
-            growth: reinvest_growth
+            dividends: reinvestDividends,
+            growth: reinvestGrowth
         };
 
         summary.bankComposition[key] = {
             initial: initialInvestment,
-            dividends: bank_dividends,
-            growth: bank_growth
+            dividends: bankDividends,
+            growth: bankGrowth
         };
     });
 
