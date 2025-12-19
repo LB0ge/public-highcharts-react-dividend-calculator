@@ -11,7 +11,8 @@ Highcharts.setOptions({
         text: ''
     },
     tooltip: {
-        valueDecimals: 0
+        valueDecimals: 0,
+        valuePrefix: '$'
     }
 });
 
