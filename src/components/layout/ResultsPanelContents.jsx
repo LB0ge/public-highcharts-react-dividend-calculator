@@ -2,21 +2,15 @@ import { useCalculator } from '../../context/useCalculator';
 import { useState } from 'react';
 import { Box, useTheme, Switch, FormControlLabel } from '@mui/material';
 
-import {
-    Title,
-    XAxis,
-    YAxis,
-    Tooltip,
-    Legend,
-    PlotOptions
-} from '@highcharts/react';
+import { Title, XAxis, YAxis, Tooltip } from '@highcharts/react';
 import { AreaSplineRangeSeries } from '@highcharts/react/series/AreaSplineRange';
 import { SplineSeries } from '@highcharts/react/series/Spline';
 import { BarSeries } from '@highcharts/react/series/Bar';
 import { AreaSplineSeries } from '@highcharts/react/series/AreaSpline';
-import MinimalisticChart from '../charts/MinimalisticChart';
-import Chart from '../charts/Chart';
+// import MinimalisticChart from '../charts/MinimalisticChart';
+import ChartComponent from '../charts/ChartComponent';
 import KpiCards from './KpiCards';
+import FinalCompositionChart from '../charts/FinalCompositionChart';
 
 export default function ResultsPanelContents() {
     const theme = useTheme();
@@ -30,11 +24,7 @@ export default function ResultsPanelContents() {
         totalReinvestmentValueLowerUpper,
         finalReinvestmentValue,
         finalBankValue,
-        principal,
-        reinvestDividends,
-        reinvestGrowth,
-        bankDividends,
-        bankGrowth
+        principal
     } = view;
 
     return (
@@ -53,73 +43,7 @@ export default function ResultsPanelContents() {
                 finalReinvestmentValue={finalReinvestmentValue}
                 finalBankValue={finalBankValue}
             />
-
-            {/* Composition chart: minimalistic stacked bar */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    gap: theme.spacing(2),
-                    justifyContent: 'left',
-                    width: '100%',
-                    maxWidth: 960,
-                    mx: 'auto',
-                    overflowX: 'hidden'
-                }}
-            >
-                <MinimalisticChart
-                    options={{
-                        chart: {
-                            height: 150
-                        }
-                    }}
-                >
-                    <Legend
-                        reversed={true}
-                        symbolHeight={15}
-                        symbolWidth={15}
-                        symbolRadius={4}
-                    />
-                    <Tooltip shared={true} />
-                    <XAxis
-                        categories={[
-                            'Reinvest dividends',
-                            'Put dividends in the bank'
-                        ]}
-                        lineWidth={0}
-                    />
-                    <PlotOptions
-                        series={{
-                            stacking: 'normal',
-                            borderRadius: {
-                                radius: '50%',
-                                scope: 'stack',
-                                where: 'all'
-                            }
-                        }}
-                    />
-                    <BarSeries
-                        data={[
-                            Math.max(0, reinvestGrowth),
-                            Math.max(0, bankGrowth)
-                        ]}
-                        name="Growth"
-                        color={theme.palette.success.main}
-                    />
-                    <BarSeries
-                        data={[
-                            Math.max(0, reinvestDividends),
-                            Math.max(0, bankDividends)
-                        ]}
-                        name="Dividends"
-                        color={theme.palette.secondary.main}
-                    />
-                    <BarSeries
-                        data={[Math.max(0, principal), Math.max(0, principal)]}
-                        name="Principal"
-                        color={theme.palette.primary.light}
-                    />
-                </MinimalisticChart>
-            </Box>
+            <FinalCompositionChart view={view} />
 
             {/* Main chart with toggle */}
             <Box
@@ -177,7 +101,7 @@ export default function ResultsPanelContents() {
                     />
                 </Box>
 
-                <Chart>
+                <ChartComponent>
                     <Title>Investment Value Over Time</Title>
                     <XAxis
                         tickInterval={1}
@@ -259,7 +183,7 @@ export default function ResultsPanelContents() {
                         visible={showComposition}
                         showInLegend={showComposition}
                     />
-                </Chart>
+                </ChartComponent>
             </Box>
         </Box>
     );

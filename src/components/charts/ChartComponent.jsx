@@ -1,6 +1,6 @@
 import { Chart } from '@highcharts/react';
 
-export default function ChartComponent({ children }) {
+export default function ChartComponent({ children, ...rest }) {
     return (
         <Chart
             options={{
@@ -14,6 +14,7 @@ export default function ChartComponent({ children }) {
             }}
             // ensure the chart container fills its parent element
             containerProps={{ style: { width: '100%', height: '100%' } }}
+            {...rest}
         >
             {children}
         </Chart>
