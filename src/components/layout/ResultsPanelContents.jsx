@@ -22,8 +22,6 @@ export default function ResultsPanelContents() {
         totalReinvestmentValueExpected,
         totalValueNoReinvestmentExpected,
         totalReinvestmentValueLowerUpper,
-        finalReinvestmentValue,
-        finalBankValue,
         principal
     } = view;
 
@@ -39,10 +37,7 @@ export default function ResultsPanelContents() {
                 // p: 0
             }}
         >
-            <KpiCards
-                finalReinvestmentValue={finalReinvestmentValue}
-                finalBankValue={finalBankValue}
-            />
+            <KpiCards view={view} />
             <FinalCompositionChart view={view} />
 
             {/* Main chart with toggle */}

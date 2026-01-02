@@ -3,9 +3,9 @@ import { formatCurrency } from '../../utils/currency';
 
 import KpiCard from './KpiCard';
 
-export default function KpiCards({ finalReinvestmentValue, finalBankValue }) {
+export default function KpiCards({ view }) {
     const theme = useTheme();
-
+    const { finalReinvestmentValue, finalBankValue } = view;
     return (
         <Box
             sx={{
