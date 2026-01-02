@@ -36,8 +36,7 @@ export default function PositionSection() {
                 <Typography variant="body1" sx={{ fontWeight: 600 }}>
                     {formatCurrency(
                         (inputs.numberOfShares ?? 0) *
-                            (inputs.pricePerShare ?? 0),
-                        inputs.currencyCode
+                            (inputs.pricePerShare ?? 0)
                     )}
                 </Typography>
             </Box>

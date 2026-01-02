@@ -15,9 +15,7 @@ const defaultInputs = {
     stockAppreciationPercent: { lower: 3, expected: 4, upper: 5 },
 
     bankInterestPercent: 4.2,
-    dividendTaxPercent: 25,
-
-    currencyCode: 'USD'
+    dividendTaxPercent: 25
 };
 
 export function CalculatorProvider({ children }) {
