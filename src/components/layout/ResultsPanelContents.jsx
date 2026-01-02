@@ -2,7 +2,14 @@ import { useCalculator } from '../../context/useCalculator';
 import { useState } from 'react';
 import { Box, useTheme, Switch, FormControlLabel } from '@mui/material';
 
-import { Title, XAxis, Tooltip, Legend, PlotOptions } from '@highcharts/react';
+import {
+    Title,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    PlotOptions
+} from '@highcharts/react';
 import { AreaSplineRangeSeries } from '@highcharts/react/series/AreaSplineRange';
 import { SplineSeries } from '@highcharts/react/series/Spline';
 import { BarSeries } from '@highcharts/react/series/Bar';
@@ -177,6 +184,7 @@ export default function ResultsPanelContents() {
                         lineColor={theme.palette.divider}
                         title={{ text: 'Year' }}
                     />
+                    <YAxis title={{ text: 'Value' }} />
                     <Tooltip
                         shared={true}
                         headerFormat="Estimated total value after <strong>{point.x}</strong> years:<br>"
