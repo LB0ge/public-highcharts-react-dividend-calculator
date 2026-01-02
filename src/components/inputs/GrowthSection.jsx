@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import NumberField from '../NumberField';
+import NumberField from './NumberField';
 import { useCalculator } from '../../context/useCalculator';
 
 export default function GrowthSection() {

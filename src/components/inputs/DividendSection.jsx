@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
-import NumberField from '../NumberField';
+import NumberField from './NumberField';
 import { useCalculator } from '../../context/useCalculator';
 
 export default function DividendSection() {
