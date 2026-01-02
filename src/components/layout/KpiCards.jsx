@@ -3,11 +3,7 @@ import { formatCurrency } from '../../utils/currency';
 
 import KpiCard from './KpiCard';
 
-export default function KpiCards({
-    results,
-    finalReinvestmentValue,
-    finalBankValue
-}) {
+export default function KpiCards({ finalReinvestmentValue, finalBankValue }) {
     const theme = useTheme();
 
     return (
@@ -39,11 +35,7 @@ export default function KpiCards({
             />
             <KpiCard
                 title="Difference"
-                value={formatCurrency(
-                    (results.finalSummary &&
-                        results.finalSummary.extraFromReinvestExpected) ||
-                        0
-                )}
+                value={formatCurrency(finalReinvestmentValue - finalBankValue)}
                 color="secondary"
                 valueGradientTo="primary"
             />

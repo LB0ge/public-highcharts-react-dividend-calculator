@@ -43,7 +43,6 @@ export default function ResultsPanelContents() {
             }}
         >
             <KpiCards
-                results={results}
                 finalReinvestmentValue={finalReinvestmentValue}
                 finalBankValue={finalBankValue}
             />
