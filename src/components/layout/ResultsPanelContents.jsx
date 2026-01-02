@@ -144,7 +144,7 @@ export default function ResultsPanelContents() {
                     <BarSeries
                         data={[Math.max(0, principal), Math.max(0, principal)]}
                         name="Principal"
-                        color={theme.palette.primary.main}
+                        color={theme.palette.primary.light}
                     />
                 </MinimalisticChart>
             </Box>
@@ -224,14 +224,14 @@ export default function ResultsPanelContents() {
                         color={theme.palette.success.main}
                         visible={!showComposition}
                         showInLegend={!showComposition}
+                        zIndex={2}
                     />
                     <AreaSplineRangeSeries
                         key="reinvest-range"
                         id="reinvest-range"
                         data={totalReinvestmentValueLowerUpper}
                         name="Reinvest Scenario Range"
-                        color={theme.palette.success.main}
-                        fillOpacity={0.15}
+                        color={theme.palette.success.light}
                         zIndex={0}
                         dashStyle="Dash"
                         visible={showLowerUpper}
@@ -244,6 +244,7 @@ export default function ResultsPanelContents() {
                         name="Bank Scenario"
                         color={theme.palette.primary.main}
                         dashStyle="LongDash"
+                        zIndex={3}
                     />
                     <AreaSplineSeries
                         key="growth"
@@ -258,7 +259,6 @@ export default function ResultsPanelContents() {
                         color={theme.palette.success.main}
                         stack="reinvest"
                         stacking="normal"
-                        opacity={0.8}
                         visible={showComposition}
                         showInLegend={showComposition}
                     />
@@ -269,10 +269,9 @@ export default function ResultsPanelContents() {
                             (p) => p.cumulativeDividendsNet
                         )}
                         name="Cumulative Dividends (reinvest)"
-                        color={theme.palette.success.main}
+                        color={theme.palette.secondary.main}
                         stack="reinvest"
                         stacking="normal"
-                        opacity={0.6}
                         visible={showComposition}
                         showInLegend={showComposition}
                     />
@@ -281,10 +280,9 @@ export default function ResultsPanelContents() {
                         id="principal"
                         data={results.reinvest.expected.map(() => principal)}
                         name="Principal"
-                        color={theme.palette.success.main}
+                        color={theme.palette.primary.light}
                         stack="reinvest"
                         stacking="normal"
-                        opacity={0.4}
                         visible={showComposition}
                         showInLegend={showComposition}
                     />
