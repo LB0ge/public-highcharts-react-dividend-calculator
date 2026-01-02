@@ -163,16 +163,14 @@ const customTheme = createTheme({
             styleOverrides: {
                 root: {
                     '& .MuiSlider-rail': {
-                        backgroundColor: '#E5E7EB',
+                        // backgroundColor: '#E5E7EB',
                         opacity: 1
                     },
                     '& .MuiSlider-track': {
-                        backgroundColor: '#06B6D4',
                         border: 'none',
                         height: 6
                     },
                     '& .MuiSlider-thumb': {
-                        backgroundColor: '#06B6D4',
                         boxShadow: '0 2px 8px rgba(6, 182, 212, 0.4)',
                         transition: 'all 0.2s ease',
                         '&:hover, &.Mui-focusVisible': {
@@ -186,7 +184,7 @@ const customTheme = createTheme({
                         borderRadius: 6,
                         fontSize: '0.75rem',
                         fontWeight: 500,
-                        backgroundColor: '#1F2937',
+                        backgroundColor: '#1f293780',
                         color: '#FFFFFF',
                         padding: '4px 8px'
                     }
@@ -251,9 +249,9 @@ customTheme.components.MuiOutlinedInput.styleOverrides.root[
 const sliderRoot = customTheme.components.MuiSlider.styleOverrides.root;
 sliderRoot['& .MuiSlider-rail'].backgroundColor = customTheme.palette.divider;
 sliderRoot['& .MuiSlider-track'].backgroundColor =
-    customTheme.palette.secondary.main;
+    customTheme.palette.primary.dark;
 sliderRoot['& .MuiSlider-thumb'].backgroundColor =
-    customTheme.palette.secondary.main;
+    customTheme.palette.primary.dark;
 sliderRoot['& .MuiSlider-valueLabelCircle'].backgroundColor =
     customTheme.palette.primary.main;
 sliderRoot['& .MuiSlider-valueLabel'].backgroundColor =
