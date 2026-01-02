@@ -10,7 +10,6 @@ export default function MinimalisticChart({
     return (
         <Chart {...rest}>
             <Credits enabled={false} />
-            {/* <XAxis visible={false} /> */}
             <YAxis visible={false} />
             {children}
         </Chart>
