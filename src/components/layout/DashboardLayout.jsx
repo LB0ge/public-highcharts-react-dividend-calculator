@@ -1,5 +1,3 @@
-// src/components/layout/DashboardLayout.jsx
-
 import { useState, useRef, useEffect } from 'react';
 import { Box, Paper, IconButton, useTheme } from '@mui/material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';

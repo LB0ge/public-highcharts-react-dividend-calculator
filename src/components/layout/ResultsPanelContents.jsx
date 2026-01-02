@@ -9,8 +9,7 @@ import { BarSeries } from '@highcharts/react/series/Bar';
 import { AreaSplineSeries } from '@highcharts/react/series/AreaSpline';
 import MinimalisticChart from '../charts/MinimalisticChart';
 import Chart from '../charts/Chart';
-import KpiCard from './KpiCard';
-import { formatCurrency } from '../../utils/currency';
+import KpiCards from './KpiCards';
 
 export default function ResultsPanelContents() {
     const theme = useTheme();
@@ -43,44 +42,11 @@ export default function ResultsPanelContents() {
                 // p: 0
             }}
         >
-            {/* KPI Cards */}
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: {
-                        xs: '1fr',
-                        sm: '1fr 1fr',
-                        md: '1fr 1fr 1fr'
-                    },
-                    gap: theme.spacing(2),
-                    maxWidth: 960,
-                    mx: 'auto',
-                    width: '100%'
-                }}
-            >
-                <KpiCard
-                    title="Reinvestment Scenario"
-                    value={formatCurrency(finalReinvestmentValue)}
-                    color="success"
-                    valueGradientTo="secondary"
-                />
-                <KpiCard
-                    title="Bank Scenario"
-                    value={formatCurrency(finalBankValue)}
-                    color="primary"
-                    valueGradientTo="secondary"
-                />
-                <KpiCard
-                    title="Difference"
-                    value={formatCurrency(
-                        (results.finalSummary &&
-                            results.finalSummary.extraFromReinvestExpected) ||
-                            0
-                    )}
-                    color="secondary"
-                    valueGradientTo="primary"
-                />
-            </Box>
+            <KpiCards
+                results={results}
+                finalReinvestmentValue={finalReinvestmentValue}
+                finalBankValue={finalBankValue}
+            />
 
             {/* Composition chart: minimalistic stacked bar */}
             <Box
