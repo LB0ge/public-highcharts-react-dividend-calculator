@@ -1,11 +1,7 @@
 // Dividend frequency removed — calculations use annual periods only (1 per year).
 
-// Convert annual percent rate to per period rate
-function annualPercentToRate(annualPercent) {
-    if (annualPercent === 0) return 0;
-    const annualRate = annualPercent / 100;
-    return annualRate;
-}
+// Convert percent to rate
+const percentToRate = (percent) => (percent === 0 ? 0 : percent / 100);
 
 // Calculate data data points for the different scenarios
 function calculateScenario(inputs, scenarioType, caseKey) {
@@ -19,12 +15,9 @@ function calculateScenario(inputs, scenarioType, caseKey) {
         dividendTaxPercent
     } = inputs;
 
-    const priceGrowthAnnual = annualPercentToRate(
-        stockAppreciationPercent[caseKey]
-    );
-
-    const bankRateAnnual = annualPercentToRate(bankInterestPercent),
-        dividendYieldAnnual = annualPercentToRate(dividendYieldPercent);
+    const priceGrowthAnnual = percentToRate(stockAppreciationPercent[caseKey]),
+        bankRateAnnual = percentToRate(bankInterestPercent),
+        dividendYieldAnnual = percentToRate(dividendYieldPercent);
 
     let shares = numberOfShares,
         price = pricePerShare,
@@ -83,9 +76,7 @@ function calculateScenario(inputs, scenarioType, caseKey) {
     return points;
 }
 
-function last(arr) {
-    return arr.length ? arr[arr.length - 1] : null;
-}
+const last = (arr) => (arr.length ? arr[arr.length - 1] : null);
 
 export function runAllCalculations(inputs) {
     const scenarioTypes = ['reinvest', 'bank'],
@@ -107,7 +98,6 @@ export function runAllCalculations(inputs) {
         reinvest: {},
         bank: {},
         extraFromReinvestExpected: 0,
-        // composition per case: { lower: {...}, expected: {...}, upper: {...} }
         reinvestComposition: {},
         bankComposition: {}
     };
