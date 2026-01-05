@@ -1,11 +1,11 @@
 import { useCalculator } from '../../context/useCalculator';
 import { useState } from 'react';
-import { Box, useTheme, Switch, FormControlLabel } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 import KpiCards from './KpiCards';
-import FinalCompositionChart from '../charts/FinalCompositionChart';
-import ValueOverTimeChart from '../charts/ValueOverTimeChart';
-import Toggles from './Toggles';
+import FinalCompositionChart from './charts/FinalCompositionChart';
+import ValueOverTimeChart from './charts/ValueOverTimeChart';
+import ChartToggles from './ChartToggles';
 
 export default function ResultsPanelContents() {
     const theme = useTheme();
@@ -28,14 +28,13 @@ export default function ResultsPanelContents() {
             <KpiCards view={view} />
             <FinalCompositionChart view={view} />
 
-            {/* Main chart with toggle */}
             <Box
                 sx={{
                     flex: 1,
                     position: 'relative'
                 }}
             >
-                <Toggles
+                <ChartToggles
                     showComposition={showComposition}
                     setShowComposition={setShowComposition}
                     showLowerUpper={showLowerUpper}

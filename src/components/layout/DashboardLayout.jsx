@@ -5,8 +5,8 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import CloseIcon from '@mui/icons-material/Close';
 import TuneIcon from '@mui/icons-material/Tune';
 import Header from './Header';
-import InputPanelContents from './InputPanelContents';
-import ResultsPanelContents from './ResultsPanelContents';
+import InputView from '../inputs/InputView';
+import ResultsView from '../results/ResultsView';
 import Panel from './Panel';
 
 export default function DashboardLayout() {
@@ -152,7 +152,7 @@ export default function DashboardLayout() {
                                     }
                                 >
                                     <Box sx={{ height: '100%' }}>
-                                        <InputPanelContents />
+                                        <InputView />
                                     </Box>
                                 </Panel>
                             ) : (
@@ -256,7 +256,7 @@ export default function DashboardLayout() {
                                     </IconButton>
                                 }
                             >
-                                <ResultsPanelContents />
+                                <ResultsView />
                             </Panel>
                         </Paper>
                     </Box>

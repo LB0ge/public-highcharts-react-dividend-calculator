@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-export default function Toggles({
+export default function ChartToggles({
     showComposition,
     setShowComposition,
     showLowerUpper,

@@ -9,7 +9,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import { setHighcharts } from '@highcharts/react';
-import Highcharts from './components/charts/chart-defaults.js';
+import Highcharts from './components/results/charts/chart-defaults.js';
 
 import customTheme from './theme/customTheme';
 import DashboardLayout from './components/layout/DashboardLayout.jsx';

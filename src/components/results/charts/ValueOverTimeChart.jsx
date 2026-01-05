@@ -20,7 +20,6 @@ export default function ValueOverTimeChart({
         principal
     } = view;
 
-    console.log(results.reinvest);
     return (
         <ChartComponent>
             <Title>Investment Value Over Time</Title>

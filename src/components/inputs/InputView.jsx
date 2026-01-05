@@ -1,9 +1,9 @@
 import { Box, Stack, useTheme } from '@mui/material';
 
-import PositionSection from '../inputs/PositionSection';
-import DividendSection from '../inputs/DividendSection';
-import GrowthSection from '../inputs/GrowthSection';
-import BankTaxSection from '../inputs/BankTaxSection';
+import PositionSection from './PositionSection';
+import DividendSection from './DividendSection';
+import GrowthSection from './GrowthSection';
+import BankTaxSection from './BankTaxSection';
 
 export default function InputPanelContents() {
     const theme = useTheme();
