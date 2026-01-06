@@ -3,9 +3,9 @@ import { useTheme } from '@mui/material/styles';
 
 export default function ChartToggles({
     showComposition,
-    setShowComposition,
-    showLowerUpper,
-    setShowLowerUpper
+    setShowComposition
+    // showLowerUpper,
+    // setShowLowerUpper
 }) {
     const theme = useTheme();
 
@@ -39,20 +39,21 @@ export default function ChartToggles({
                     '& .MuiFormControlLabel-label': { fontSize: 12 }
                 }}
             />
-            <FormControlLabel
-                control={
-                    <Switch
-                        size="small"
-                        checked={showLowerUpper}
-                        onChange={(e) => setShowLowerUpper(e.target.checked)}
-                    />
-                }
-                label="Show lower/upper estimates"
-                sx={{
-                    m: 0,
-                    '& .MuiFormControlLabel-label': { fontSize: 12 }
-                }}
-            />
+            {/**
+             * Lower/Upper toggle disabled for now; original control preserved below for future use:
+             *
+             * <FormControlLabel
+             *   control={
+             *     <Switch
+             *       size="small"
+             *       checked={showLowerUpper}
+             *       onChange={(e) => setShowLowerUpper(e.target.checked)}
+             *     />
+             *   }
+             *   label="Show lower/upper estimates"
+             *   sx={{ m: 0, '& .MuiFormControlLabel-label': { fontSize: 12 } }}
+             * />
+             */}
         </Box>
     );
 }

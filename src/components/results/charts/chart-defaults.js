@@ -13,6 +13,9 @@ Highcharts.setOptions({
     tooltip: {
         valueDecimals: 0,
         valuePrefix: '$'
+    },
+    yAxis: {
+        title: { text: '' }
     }
 });
 

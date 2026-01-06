@@ -16,50 +16,58 @@ export default function GrowthSection() {
             <Typography variant="h6" color="text.secondary">
                 Growth assumptions
             </Typography>
+            {/* Lower/Upper inputs temporarily hidden; only the expected value is editable */}
+            <NumberField
+                label="Annual stock appreciation"
+                value={inputs.stockAppreciationPercent?.expected ?? 0}
+                step={step}
+                min={-99.9}
+                max={1000}
+                unit="%"
+                onChange={handleNestedChange(
+                    'stockAppreciationPercent',
+                    'expected'
+                )}
+            />
 
-            <Box>
-                <Typography variant="subtitle2" paddingBottom={2}>
-                    Annual stock appreciation
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    <NumberField
-                        label="Lower"
-                        value={inputs.stockAppreciationPercent?.lower ?? 0}
-                        step={step}
-                        min={-99.9}
-                        max={inputs.stockAppreciationPercent?.expected - step}
-                        unit="%"
-                        onChange={handleNestedChange(
-                            'stockAppreciationPercent',
-                            'lower'
-                        )}
-                    />
-                    <NumberField
-                        label="Expected"
-                        value={inputs.stockAppreciationPercent?.expected ?? 0}
-                        step={step}
-                        min={inputs.stockAppreciationPercent?.lower + step}
-                        max={inputs.stockAppreciationPercent?.upper - step}
-                        unit="%"
-                        onChange={handleNestedChange(
-                            'stockAppreciationPercent',
-                            'expected'
-                        )}
-                    />
-                    <NumberField
-                        label="Upper"
-                        value={inputs.stockAppreciationPercent?.upper ?? 0}
-                        step={step}
-                        min={inputs.stockAppreciationPercent?.expected + step}
-                        max={1000}
-                        unit="%"
-                        onChange={handleNestedChange(
-                            'stockAppreciationPercent',
-                            'upper'
-                        )}
-                    />
-                </Box>
-            </Box>
+            {/**
+             * For future re-enable of lower/upper scenarios.
+             *
+             * <Box>
+             *   <Typography variant="subtitle2" paddingBottom={2}>
+             *       Annual stock appreciation
+             *   </Typography>
+             *   <Box sx={{ display: 'flex', gap: 1 }}>
+             *       <NumberField
+             *           label="Lower"
+             *           value={inputs.stockAppreciationPercent?.lower ?? 0}
+             *           step={step}
+             *           min={-99.9}
+             *           max={inputs.stockAppreciationPercent?.expected - step}
+             *           unit="%"
+             *           onChange={handleNestedChange('stockAppreciationPercent','lower')}
+             *       />
+             *       <NumberField
+             *           label="Expected"
+             *           value={inputs.stockAppreciationPercent?.expected ?? 0}
+             *           step={step}
+             *           min={inputs.stockAppreciationPercent?.lower + step}
+             *           max={inputs.stockAppreciationPercent?.upper - step}
+             *           unit="%"
+             *           onChange={handleNestedChange('stockAppreciationPercent','expected')}
+             *       />
+             *       <NumberField
+             *           label="Upper"
+             *           value={inputs.stockAppreciationPercent?.upper ?? 0}
+             *           step={step}
+             *           min={inputs.stockAppreciationPercent?.expected + step}
+             *           max={1000}
+             *           unit="%"
+             *           onChange={handleNestedChange('stockAppreciationPercent','upper')}
+             *       />
+             *   </Box>
+             * </Box>
+             */}
         </Box>
     );
 }

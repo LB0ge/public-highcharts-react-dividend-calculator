@@ -1,63 +1,60 @@
 import { useTheme } from '@emotion/react';
-import { Title, XAxis, YAxis, Tooltip } from '@highcharts/react';
+import { Title, XAxis, Tooltip } from '@highcharts/react';
 import { SplineSeries } from '@highcharts/react/series/Spline';
 import { AreaSplineSeries } from '@highcharts/react/series/AreaSpline';
-import { AreaSplineRangeSeries } from '@highcharts/react/series/AreaSplineRange';
+// import { AreaSplineRangeSeries } from '@highcharts/react/series/AreaSplineRange';
 import ChartComponent from './ChartComponent';
 
-export default function ValueOverTimeChart({
+export default function InvestmentValuePerYearChart({
     view,
     results,
-    showComposition,
-    showLowerUpper
+    showComposition
 }) {
     const theme = useTheme();
 
     const {
-        totalReinvestmentValueExpected,
-        totalValueNoReinvestmentExpected,
-        totalReinvestmentValueLowerUpper,
+        totalReinvestmentValue,
+        totalValueNoReinvestment,
+        // totalReinvestmentValueLowerUpper,
         principal
     } = view;
 
     return (
         <ChartComponent>
             <Title>Investment Value Over Time</Title>
-            <XAxis
-                tickInterval={1}
-                lineColor={theme.palette.divider}
-                title={{ text: 'Year' }}
-            />
-            <YAxis title={{ text: 'Value' }} />
+            <XAxis tickInterval={1} title={{ text: 'Year' }} />
             <Tooltip
                 shared={true}
-                headerFormat="Estimated total value after <strong>{point.x}</strong> years:<br>"
+                headerFormat="Estimated total value in year <strong>{point.x}</strong>:<br>"
             />
             <SplineSeries
                 key="reinvest-total"
                 id="reinvest-total"
-                data={totalReinvestmentValueExpected}
+                data={totalReinvestmentValue}
                 name="Reinvest Scenario"
                 color={theme.palette.success.main}
                 visible={!showComposition}
                 showInLegend={!showComposition}
                 zIndex={2}
             />
-            <AreaSplineRangeSeries
-                key="reinvest-range"
-                id="reinvest-range"
-                data={totalReinvestmentValueLowerUpper}
-                name="Reinvest Scenario Range"
-                color={theme.palette.success.light}
-                zIndex={0}
-                dashStyle="Dash"
-                visible={showLowerUpper}
-                showInLegend={showLowerUpper}
-            />
+            {/**
+             * Lower/Upper range temporarily disabled; show only expected scenario for now.
+             * <AreaSplineRangeSeries
+             *     key="reinvest-range"
+             *     id="reinvest-range"
+             *     data={totalReinvestmentValueLowerUpper}
+             *     name="Reinvest Scenario Range"
+             *     color={theme.palette.success.light}
+             *     zIndex={0}
+             *     dashStyle="Dash"
+             *     visible={showLowerUpper}
+             *     showInLegend={showLowerUpper}
+             * />
+             */}
             <SplineSeries
                 key="bank-total"
                 id="bank-total"
-                data={totalValueNoReinvestmentExpected}
+                data={totalValueNoReinvestment}
                 name="Bank Scenario"
                 color={theme.palette.primary.main}
                 dashStyle="LongDash"
@@ -66,7 +63,7 @@ export default function ValueOverTimeChart({
             <AreaSplineSeries
                 key="growth"
                 id="growth"
-                data={results.reinvest.expected.map(
+                data={results.reinvest.map(
                     (p) => p.totalValue - p.cumulativeDividendsNet - principal
                 )}
                 name="Growth (reinvest)"
@@ -79,9 +76,7 @@ export default function ValueOverTimeChart({
             <AreaSplineSeries
                 key="reinvestDividends"
                 id="reinvestDividends"
-                data={results.reinvest.expected.map(
-                    (p) => p.cumulativeDividendsNet
-                )}
+                data={results.reinvest.map((p) => p.cumulativeDividendsNet)}
                 name="Cumulative Dividends (reinvest)"
                 color={theme.palette.secondary.main}
                 stack="reinvest"
@@ -92,7 +87,7 @@ export default function ValueOverTimeChart({
             <AreaSplineSeries
                 key="principal"
                 id="principal"
-                data={results.reinvest.expected.map(() => principal)}
+                data={results.reinvest.map(() => principal)}
                 name="Principal"
                 color={theme.palette.primary.light}
                 stack="reinvest"

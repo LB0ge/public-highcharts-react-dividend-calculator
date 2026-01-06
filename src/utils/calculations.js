@@ -3,19 +3,24 @@
 // Convert percent to rate
 const percentToRate = (percent) => (percent === 0 ? 0 : percent / 100);
 
-// Calculate data data points for the different scenarios
-function calculateScenario(inputs, scenarioType, caseKey) {
+// Calculate data points for scenarios using a single (flat) value
+function calculateScenario(inputs, scenarioType) {
     const {
         numberOfShares,
         pricePerShare,
         holdingPeriodYears,
         dividendYieldPercent,
-        stockAppreciationPercent, // {lower, expected, upper}
+        stockAppreciationPercent,
         bankInterestPercent,
         dividendTaxPercent
     } = inputs;
 
-    const priceGrowthAnnual = percentToRate(stockAppreciationPercent[caseKey]),
+    // Accept both a flat number or an object (for backward compatibility)
+    const priceGrowthAnnual = percentToRate(
+            typeof stockAppreciationPercent === 'object'
+                ? stockAppreciationPercent.expected
+                : stockAppreciationPercent
+        ),
         bankRateAnnual = percentToRate(bankInterestPercent),
         dividendYieldAnnual = percentToRate(dividendYieldPercent);
 
@@ -23,7 +28,9 @@ function calculateScenario(inputs, scenarioType, caseKey) {
         price = pricePerShare,
         bankBalance = 0,
         cumulativeDividendsGross = 0,
-        cumulativeDividendsNet = 0;
+        cumulativeDividendsNet = 0,
+        dividendsGross = 0,
+        dividendsNet = 0;
 
     const points = [];
 
@@ -38,24 +45,27 @@ function calculateScenario(inputs, scenarioType, caseKey) {
             bankBalance,
             shares,
             price,
+            dividendsGross,
+            dividendsNet,
             cumulativeDividendsGross,
             cumulativeDividendsNet
         });
     }
 
+    // Initial point (year 0) with zero dividends
     pushPoint(0);
     for (let step = 0; step < holdingPeriodYears; step++) {
         price = price * (1 + priceGrowthAnnual);
 
-        const dividendPerShare = price * dividendYieldAnnual,
-            grossDividends = shares * dividendPerShare,
-            netDividends = grossDividends * (1 - dividendTaxPercent / 100);
-        cumulativeDividendsGross += grossDividends;
-        cumulativeDividendsNet += netDividends;
+        // Compute per-year dividends directly (no intermediate variables)
+        dividendsGross = shares * (price * dividendYieldAnnual);
+        dividendsNet = dividendsGross * (1 - dividendTaxPercent / 100);
+        cumulativeDividendsGross += dividendsGross;
+        cumulativeDividendsNet += dividendsNet;
 
         if (scenarioType === 'reinvest') {
             // Reinvest only in whole shares
-            const availableToInvest = bankBalance + netDividends;
+            const availableToInvest = bankBalance + dividendsNet;
             const wholeSharesToBuy = Math.floor(availableToInvest / price);
             const cost = wholeSharesToBuy * price;
 
@@ -67,7 +77,7 @@ function calculateScenario(inputs, scenarioType, caseKey) {
             bankBalance = availableToInvest - cost;
         } else {
             // Bank scenario: grow bank balance and add new dividends
-            bankBalance = bankBalance * (1 + bankRateAnnual) + netDividends;
+            bankBalance = bankBalance * (1 + bankRateAnnual) + dividendsNet;
         }
 
         pushPoint(step + 1);
@@ -79,71 +89,56 @@ function calculateScenario(inputs, scenarioType, caseKey) {
 const last = (arr) => (arr.length ? arr[arr.length - 1] : null);
 
 export function runAllCalculations(inputs) {
-    const scenarioTypes = ['reinvest', 'bank'],
-        caseKeys = ['lower', 'expected', 'upper'],
-        results = {
-            reinvest: {},
-            bank: {}
-        };
-
-    scenarioTypes.forEach((type) => {
-        results[type] = {};
-        caseKeys.forEach((key) => {
-            results[type][key] = calculateScenario(inputs, type, key);
-        });
-    });
+    const results = {
+        reinvest: calculateScenario(inputs, 'reinvest'),
+        bank: calculateScenario(inputs, 'bank')
+    };
 
     const summary = {
         finalYear: inputs.holdingPeriodYears,
-        reinvest: {},
-        bank: {},
-        extraFromReinvestExpected: 0,
+        reinvest: 0,
+        bank: 0,
+        extraFromReinvest: 0,
         reinvestComposition: {},
         bankComposition: {}
     };
 
-    caseKeys.forEach((key) => {
-        const reinvestLast = last(results.reinvest[key]);
-        const bankLast = last(results.bank[key]);
+    const reinvestLast = last(results.reinvest);
+    const bankLast = last(results.bank);
 
-        summary.reinvest[key] = reinvestLast ? reinvestLast.totalValue : 0;
-        summary.bank[key] = bankLast ? bankLast.totalValue : 0;
+    summary.reinvest = reinvestLast ? reinvestLast.totalValue : 0;
+    summary.bank = bankLast ? bankLast.totalValue : 0;
 
-        // compute composition components and store them
-        const initialInvestment =
-            (inputs.numberOfShares || 0) * (inputs.pricePerShare || 0);
+    const initialInvestment =
+        (inputs.numberOfShares || 0) * (inputs.pricePerShare || 0);
 
-        const reinvestDividends = reinvestLast
-            ? reinvestLast.cumulativeDividendsNet || 0
-            : 0;
-        let reinvestGrowth = reinvestLast
-            ? reinvestLast.totalValue - initialInvestment - reinvestDividends
-            : 0;
-        if (reinvestGrowth < 0) reinvestGrowth = 0;
+    const reinvestDividends = reinvestLast
+        ? reinvestLast.cumulativeDividendsNet || 0
+        : 0;
+    let reinvestGrowth = reinvestLast
+        ? reinvestLast.totalValue - initialInvestment - reinvestDividends
+        : 0;
+    if (reinvestGrowth < 0) reinvestGrowth = 0;
 
-        const bankDividends = bankLast
-            ? bankLast.cumulativeDividendsNet || 0
-            : 0;
-        let bankGrowth = bankLast
-            ? bankLast.totalValue - initialInvestment - bankDividends
-            : 0;
-        if (bankGrowth < 0) bankGrowth = 0;
+    const bankDividends = bankLast ? bankLast.cumulativeDividendsNet || 0 : 0;
+    let bankGrowth = bankLast
+        ? bankLast.totalValue - initialInvestment - bankDividends
+        : 0;
+    if (bankGrowth < 0) bankGrowth = 0;
 
-        summary.reinvestComposition[key] = {
-            initial: initialInvestment,
-            dividends: reinvestDividends,
-            growth: reinvestGrowth
-        };
+    summary.reinvestComposition = {
+        initial: initialInvestment,
+        dividends: reinvestDividends,
+        growth: reinvestGrowth
+    };
 
-        summary.bankComposition[key] = {
-            initial: initialInvestment,
-            dividends: bankDividends,
-            growth: bankGrowth
-        };
-    });
+    summary.bankComposition = {
+        initial: initialInvestment,
+        dividends: bankDividends,
+        growth: bankGrowth
+    };
 
-    summary.extraFromReinvestExpected =
-        summary.reinvest.expected - summary.bank.expected;
+    summary.extraFromReinvest = summary.reinvest - summary.bank;
 
     return {
         reinvest: results.reinvest,
@@ -154,41 +149,29 @@ export function runAllCalculations(inputs) {
 
 // Build a lightweight view model for UI components from raw results
 export function buildResultsViewModel(results) {
-    const totalReinvestmentValueExpected = (
-        results.reinvest.expected || []
-    ).map((point) => point.totalValue);
-    const totalValueNoReinvestmentExpected = (results.bank.expected || []).map(
+    const totalReinvestmentValue = (results.reinvest || []).map(
         (point) => point.totalValue
     );
-
-    const totalReinvestmentValueLower = (results.reinvest.lower || []).map(
+    const totalValueNoReinvestment = (results.bank || []).map(
         (point) => point.totalValue
-    );
-    const totalReinvestmentValueUpper = (results.reinvest.upper || []).map(
-        (point) => point.totalValue
-    );
-    const totalReinvestmentValueLowerUpper = totalReinvestmentValueLower.map(
-        (lowerValue, index) => [lowerValue, totalReinvestmentValueUpper[index]]
     );
 
     const finalReinvestmentValue =
-        totalReinvestmentValueExpected[
-            Math.max(0, totalReinvestmentValueExpected.length - 1)
+        totalReinvestmentValue[
+            Math.max(0, totalReinvestmentValue.length - 1)
         ] || 0;
     const finalBankValue =
-        totalValueNoReinvestmentExpected[
-            Math.max(0, totalValueNoReinvestmentExpected.length - 1)
+        totalValueNoReinvestment[
+            Math.max(0, totalValueNoReinvestment.length - 1)
         ] || 0;
 
     const comp = results.finalSummary || {};
-    const reinvestComp = (comp.reinvestComposition &&
-        comp.reinvestComposition.expected) || {
+    const reinvestComp = comp.reinvestComposition || {
         initial: 0,
         dividends: 0,
         growth: 0
     };
-    const bankComp = (comp.bankComposition &&
-        comp.bankComposition.expected) || {
+    const bankComp = comp.bankComposition || {
         initial: 0,
         dividends: 0,
         growth: 0
@@ -200,16 +183,35 @@ export function buildResultsViewModel(results) {
     const bankDividends = bankComp.dividends || 0;
     const bankGrowth = bankComp.growth || 0;
 
+    // Per-year dividends (net), include year 0 for alignment with other charts
+    const dividendsPerYearReinvest = (results.reinvest || []).map(
+        (p) => p.dividendsNet || 0
+    );
+    const dividendsPerYearBank = (results.bank || []).map(
+        (p) => p.dividendsNet || 0
+    );
+
+    // Per-year dividends (gross), include year 0
+    const dividendsPerYearReinvestGross = (results.reinvest || []).map(
+        (p) => p.dividendsGross || 0
+    );
+    const dividendsPerYearBankGross = (results.bank || []).map(
+        (p) => p.dividendsGross || 0
+    );
+
     return {
-        totalReinvestmentValueExpected,
-        totalValueNoReinvestmentExpected,
-        totalReinvestmentValueLowerUpper,
+        totalReinvestmentValue,
+        totalValueNoReinvestment,
         finalReinvestmentValue,
         finalBankValue,
         principal,
         reinvestDividends,
         reinvestGrowth,
         bankDividends,
-        bankGrowth
+        bankGrowth,
+        dividendsPerYearReinvest,
+        dividendsPerYearBank,
+        dividendsPerYearReinvestGross,
+        dividendsPerYearBankGross
     };
 }
