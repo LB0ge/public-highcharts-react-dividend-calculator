@@ -21,7 +21,7 @@ export default function InputView() {
                 spacing={theme.spacing(2)}
                 sx={{
                     flexGrow: 1,
-                    overflowY: 'auto',
+                    overflow: 'visible',
                     pr: theme.spacing(1),
                     '&::-webkit-scrollbar': {
                         width: '6px'
