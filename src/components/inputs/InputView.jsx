@@ -5,7 +5,7 @@ import DividendSection from './DividendSection';
 import GrowthSection from './GrowthSection';
 import BankTaxSection from './BankTaxSection';
 
-export default function InputPanelContents() {
+export default function InputView() {
     const theme = useTheme();
 
     return (

@@ -8,7 +8,7 @@ import InvestmentValuePerYearChart from './charts/InvestmentValuePerYearChart';
 import ChartToggles from './ChartToggles';
 import DividendPayoutPerYearChart from './charts/DividendPayoutPerYearChart';
 
-export default function ResultsPanelContents() {
+export default function ResultsView() {
     const theme = useTheme();
     const { view, results } = useCalculator();
     const [showComposition, setShowComposition] = useState(false);
