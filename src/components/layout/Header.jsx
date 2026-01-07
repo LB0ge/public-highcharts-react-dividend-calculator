@@ -214,9 +214,8 @@ export default function Header() {
                         color="text.secondary"
                         sx={{ mb: 0.5 }}
                     >
-                        <strong>Growth:</strong> Expected annual stock price
-                        appreciation (can set lower/upper bounds for range
-                        projections)
+                        <strong>Growth:</strong> Annual stock price appreciation
+                        percentage
                     </Typography>
                     <Typography
                         component="li"
