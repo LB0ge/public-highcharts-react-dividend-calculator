@@ -48,6 +48,8 @@ export default function DividendSection() {
             <NumberField
                 label="Holding period (years)"
                 value={inputs.holdingPeriodYears ?? 0}
+                min={1}
+                max={50}
                 unit="years"
                 onChange={handleChange('holdingPeriodYears')}
             />

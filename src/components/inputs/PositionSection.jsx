@@ -19,7 +19,7 @@ export default function PositionSection() {
             <NumberField
                 label="Number of shares"
                 value={inputs.numberOfShares ?? 0}
-                min={0}
+                min={1}
                 onChange={handleChange('numberOfShares')}
             />
 
