@@ -175,3 +175,9 @@ Using the **Highcharts React v4 JSX API**:
 -   No transaction fees or account maintenance costs
 
 **Note**: This calculator is intended for rough comparison and educational purposes. Real-world results will vary due to market volatility, changing dividend policies, and factors not modeled here.
+
+## Future Enhancements
+
+-   [ ] Responsive layout improvements
+-   [ ] Dark mode support (?)
+-   [ ] Ensure x-axis ticks are always aligned between value chart and dividend chart (currently an issue when y-axis labels differ in width).
