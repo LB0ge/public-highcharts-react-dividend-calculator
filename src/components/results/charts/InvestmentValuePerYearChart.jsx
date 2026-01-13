@@ -1,9 +1,15 @@
 import { useTheme } from '@emotion/react';
-import { Title, XAxis, Tooltip } from '@highcharts/react';
+import {
+    Chart,
+    Title,
+    XAxis,
+    Tooltip,
+    YAxis,
+    PlotOptions
+} from '@highcharts/react';
 import { SplineSeries } from '@highcharts/react/series/Spline';
 import { AreaSplineSeries } from '@highcharts/react/series/AreaSpline';
 // import { AreaSplineRangeSeries } from '@highcharts/react/series/AreaSplineRange';
-import ChartComponent from './ChartComponent';
 
 export default function InvestmentValuePerYearChart({
     view,
@@ -12,26 +18,46 @@ export default function InvestmentValuePerYearChart({
 }) {
     const theme = useTheme();
 
-    const {
-        totalReinvestmentValue,
-        totalValueNoReinvestment,
-        // totalReinvestmentValueLowerUpper,
-        principal
-    } = view;
+    const { totalReinvestmentValue, totalValueNoReinvestment, principal } =
+        view;
 
     return (
-        <ChartComponent>
+        <Chart
+            containerProps={{
+                style: {
+                    width: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                }
+            }}
+        >
             <Title>Investment Value Over Time</Title>
-            <XAxis tickInterval={1} title={{ text: 'Year' }} />
+            <XAxis
+                tickInterval={1}
+                title={{ text: 'Year' }}
+                min={0}
+                max={totalReinvestmentValue.length - 0.5}
+            />
+            <YAxis min={0} />
             <Tooltip
                 shared={true}
                 headerFormat="Estimated total value in year <strong>{point.x}</strong>:<br>"
+            />
+            <PlotOptions
+                series={{
+                    marker: {
+                        enabled: false
+                    }
+                }}
             />
             <SplineSeries
                 key="reinvest-total"
                 id="reinvest-total"
                 data={totalReinvestmentValue}
-                name="Reinvest Scenario"
+                name="Scenario A"
                 color={theme.palette.success.main}
                 visible={!showComposition}
                 showInLegend={!showComposition}
@@ -55,9 +81,8 @@ export default function InvestmentValuePerYearChart({
                 key="bank-total"
                 id="bank-total"
                 data={totalValueNoReinvestment}
-                name="Bank Scenario"
-                color={theme.palette.primary.main}
-                dashStyle="LongDash"
+                name="Scenario B"
+                color={theme.palette.secondary.main}
                 zIndex={3}
             />
             <AreaSplineSeries
@@ -66,8 +91,8 @@ export default function InvestmentValuePerYearChart({
                 data={results.reinvest.map(
                     (p) => p.totalValue - p.cumulativeDividendsNet - principal
                 )}
-                name="Growth (reinvest)"
-                color={theme.palette.success.main}
+                name="Growth (A)"
+                color={theme.palette.success.light}
                 stack="reinvest"
                 stacking="normal"
                 visible={showComposition}
@@ -77,8 +102,8 @@ export default function InvestmentValuePerYearChart({
                 key="reinvestDividends"
                 id="reinvestDividends"
                 data={results.reinvest.map((p) => p.cumulativeDividendsNet)}
-                name="Cumulative Dividends (reinvest)"
-                color={theme.palette.secondary.main}
+                name="Cumulative Dividends (A)"
+                color={theme.palette.success.main}
                 stack="reinvest"
                 stacking="normal"
                 visible={showComposition}
@@ -89,12 +114,12 @@ export default function InvestmentValuePerYearChart({
                 id="principal"
                 data={results.reinvest.map(() => principal)}
                 name="Principal"
-                color={theme.palette.primary.light}
+                color={theme.palette.success.dark}
                 stack="reinvest"
                 stacking="normal"
                 visible={showComposition}
                 showInLegend={showComposition}
             />
-        </ChartComponent>
+        </Chart>
     );
 }

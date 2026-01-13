@@ -127,7 +127,7 @@ export default function DashboardLayout() {
                                     : 'center',
                                 gap: showFilters ? 2 : 0,
                                 minHeight: showFilters
-                                    ? 'auto'
+                                    ? { xs: 'auto', md: 1200 }
                                     : collapsedFilterWidth,
                                 height: {
                                     xs: 'auto',
@@ -187,7 +187,10 @@ export default function DashboardLayout() {
                             },
                             width: '100%',
                             display: 'flex',
-                            alignSelf: 'stretch'
+                            alignSelf: showFilters ? 'stretch' : 'flex-start',
+                            height: showFilters
+                                ? 'auto'
+                                : { xs: 'auto', md: 1200 }
                         }}
                     >
                         <Paper
@@ -201,7 +204,8 @@ export default function DashboardLayout() {
                                 flexGrow: 1,
                                 display: 'flex',
                                 flexDirection: 'column',
-                                width: '100%'
+                                width: '100%',
+                                position: 'relative'
                             }}
                         >
                             <Panel
@@ -256,7 +260,7 @@ export default function DashboardLayout() {
                                     </IconButton>
                                 }
                             >
-                                <ResultsView />
+                                <ResultsView isFullscreen={resultsFull} />
                             </Panel>
                         </Paper>
                     </Box>

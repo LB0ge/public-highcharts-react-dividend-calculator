@@ -4,34 +4,34 @@ const customTheme = createTheme({
     palette: {
         mode: 'light',
         primary: {
-            main: '#1F2937', // Deep charcoal
-            light: '#374151',
-            dark: '#111827',
+            main: '#8d56c0',
+            light: '#af89d3',
+            dark: '#633c86',
             contrastText: '#fff'
         },
         secondary: {
-            main: '#06B6D4', // Vibrant cyan
-            light: '#22D3EE',
-            dark: '#0891B2',
+            main: '#3B82F6',
+            light: '#60A5FA',
+            dark: '#2563EB',
             contrastText: '#fff'
         },
         success: {
-            main: '#10B981', // Emerald green
+            main: '#10B981',
             light: '#6EE7B7',
             dark: '#059669'
         },
         warning: {
-            main: '#F59E0B', // Amber
+            main: '#F59E0B',
             light: '#FBBF24',
             dark: '#D97706'
         },
         error: {
-            main: '#EF4444', // Red
+            main: '#EF4444',
             light: '#FCA5A5',
             dark: '#DC2626'
         },
         background: {
-            default: '#F9FAFB', // Light gray
+            default: '#F9FAFB',
             paper: '#FFFFFF'
         },
         text: {
@@ -41,7 +41,7 @@ const customTheme = createTheme({
         },
         divider: '#E5E7EB',
         action: {
-            hover: 'rgba(31, 41, 55, 0.04)',
+            hover: 'rgba(49, 31, 55, 0.04)',
             selected: 'rgba(31, 41, 55, 0.08)',
             focus: 'rgba(31, 41, 55, 0.1)'
         }
@@ -76,8 +76,7 @@ const customTheme = createTheme({
         subtitle2: {
             fontSize: '0.875rem',
             fontWeight: 600,
-            lineHeight: 1.4,
-            color: '#6B7280'
+            lineHeight: 1.4
         },
         body1: {
             fontSize: '0.95rem',
@@ -87,8 +86,7 @@ const customTheme = createTheme({
         body2: {
             fontSize: '0.875rem',
             fontWeight: 500,
-            lineHeight: 1.5,
-            color: '#6B7280'
+            lineHeight: 1.5
         }
     },
     shape: {
@@ -101,7 +99,6 @@ const customTheme = createTheme({
                 root: {
                     boxShadow:
                         '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-                    border: '1px solid #E5E7EB',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
                         boxShadow:
@@ -133,29 +130,13 @@ const customTheme = createTheme({
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                     }
                 },
-                outlined: {
-                    borderColor: '#E5E7EB',
-                    '&:hover': {
-                        borderColor: '#1F2937',
-                        backgroundColor: 'rgba(31, 41, 55, 0.04)'
-                    }
-                }
+                outlined: {}
             }
         },
         MuiOutlinedInput: {
             styleOverrides: {
                 root: {
-                    transition: 'all 0.2s ease',
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#D1D5DB'
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#06B6D4',
-                        boxShadow: '0 0 0 3px rgba(6, 182, 212, 0.1)'
-                    }
-                },
-                notchedOutline: {
-                    borderColor: '#E5E7EB'
+                    transition: 'all 0.2s ease'
                 }
             }
         },
@@ -163,7 +144,6 @@ const customTheme = createTheme({
             styleOverrides: {
                 root: {
                     '& .MuiSlider-rail': {
-                        // backgroundColor: '#E5E7EB',
                         opacity: 1
                     },
                     '& .MuiSlider-track': {
@@ -171,21 +151,12 @@ const customTheme = createTheme({
                         height: 6
                     },
                     '& .MuiSlider-thumb': {
-                        boxShadow: '0 2px 8px rgba(6, 182, 212, 0.4)',
-                        transition: 'all 0.2s ease',
-                        '&:hover, &.Mui-focusVisible': {
-                            boxShadow: '0 4px 16px rgba(6, 182, 212, 0.6)'
-                        }
-                    },
-                    '& .MuiSlider-valueLabelCircle': {
-                        backgroundColor: '#1F2937'
+                        transition: 'all 0.2s ease'
                     },
                     '& .MuiSlider-valueLabel': {
                         borderRadius: 6,
                         fontSize: '0.75rem',
                         fontWeight: 500,
-                        backgroundColor: '#1f293780',
-                        color: '#FFFFFF',
                         padding: '4px 8px'
                     }
                 },
@@ -203,9 +174,23 @@ const customTheme = createTheme({
         MuiDivider: {
             styleOverrides: {
                 root: {
-                    borderColor: '#E5E7EB',
                     marginTop: '0.5rem',
                     marginBottom: '0.5rem'
+                }
+            }
+        },
+        MuiToggleButtonGroup: {
+            styleOverrides: {
+                root: {}
+            }
+        },
+        MuiToggleButton: {
+            styleOverrides: {
+                root: {
+                    fontSize: 12,
+                    padding: '2px 8px',
+                    textTransform: 'none',
+                    fontWeight: 500
                 }
             }
         },
@@ -236,41 +221,87 @@ customTheme.typography.body2.color = customTheme.palette.text.secondary;
 customTheme.components.MuiCard.styleOverrides.root.border = `1px solid ${customTheme.palette.divider}`;
 
 // OutlinedInput
-customTheme.components.MuiOutlinedInput.styleOverrides.notchedOutline.borderColor =
-    customTheme.palette.divider;
+customTheme.components.MuiOutlinedInput.styleOverrides.notchedOutline = {
+    borderColor: customTheme.palette.divider
+};
 customTheme.components.MuiOutlinedInput.styleOverrides.root[
     '&:hover .MuiOutlinedInput-notchedOutline'
-].borderColor = customTheme.palette.divider;
+] = {
+    borderColor: customTheme.palette.divider
+};
 customTheme.components.MuiOutlinedInput.styleOverrides.root[
     '&.Mui-focused .MuiOutlinedInput-notchedOutline'
-].borderColor = customTheme.palette.secondary.main;
+] = {
+    borderColor: customTheme.palette.primary.main,
+    boxShadow: `0 0 0 3px ${customTheme.palette.primary.main}1a`
+};
+
+// Button(outlined)
+customTheme.components.MuiButton.styleOverrides.outlined = {
+    borderColor: customTheme.palette.divider,
+    '&:hover': {
+        borderColor: customTheme.palette.primary.main,
+        backgroundColor: customTheme.palette.action.hover
+    }
+};
 
 // Slider
 const sliderRoot = customTheme.components.MuiSlider.styleOverrides.root;
-sliderRoot['& .MuiSlider-rail'].backgroundColor = customTheme.palette.divider;
-sliderRoot['& .MuiSlider-track'].backgroundColor =
-    customTheme.palette.primary.dark;
-sliderRoot['& .MuiSlider-thumb'].backgroundColor =
-    customTheme.palette.primary.dark;
-sliderRoot['& .MuiSlider-valueLabelCircle'].backgroundColor =
-    customTheme.palette.primary.main;
-sliderRoot['& .MuiSlider-valueLabel'].backgroundColor =
-    customTheme.palette.primary.main;
-sliderRoot['& .MuiSlider-valueLabel'].color =
-    customTheme.palette.primary.contrastText;
-
-// Button (outlined)
-customTheme.components.MuiButton.styleOverrides.outlined.borderColor =
-    customTheme.palette.divider;
-customTheme.components.MuiButton.styleOverrides.outlined[
-    '&:hover'
-].borderColor = customTheme.palette.primary.main;
-customTheme.components.MuiButton.styleOverrides.outlined[
-    '&:hover'
-].backgroundColor = customTheme.palette.action.hover;
+sliderRoot['& .MuiSlider-rail'] = {
+    backgroundColor: customTheme.palette.divider,
+    opacity: 1
+};
+sliderRoot['& .MuiSlider-track'] = {
+    backgroundColor: customTheme.palette.primary.light,
+    border: 'none',
+    height: 6
+};
+sliderRoot['& .MuiSlider-thumb'] = {
+    transition: 'all 0.2s ease'
+};
+sliderRoot['& .MuiSlider-thumb:hover'] = {
+    boxShadow: `0 0 0 8px ${customTheme.palette.primary.main}1a`
+};
+sliderRoot['& .MuiSlider-valueLabel'] = {
+    backgroundColor: customTheme.palette.primary.main,
+    color: customTheme.palette.primary.contrastText,
+    borderRadius: 6,
+    fontSize: '0.75rem',
+    fontWeight: 500,
+    padding: '4px 8px'
+};
 
 // Divider
 customTheme.components.MuiDivider.styleOverrides.root.borderColor =
     customTheme.palette.divider;
+
+// ToggleButton
+customTheme.components.MuiToggleButtonGroup.styleOverrides.root = {
+    borderColor: customTheme.palette.divider
+};
+customTheme.components.MuiToggleButton.styleOverrides.root = {
+    ...customTheme.components.MuiToggleButton.styleOverrides.root,
+    color: customTheme.palette.text.secondary,
+    borderColor: customTheme.palette.divider,
+    '&:hover': {
+        backgroundColor: customTheme.palette.action.hover,
+        borderColor: customTheme.palette.divider
+    },
+    '&:focus': {
+        outline: 'none'
+    },
+    '&.Mui-selected': {
+        color: customTheme.palette.primary.contrastText,
+        backgroundColor: customTheme.palette.primary.main,
+        borderColor: customTheme.palette.divider,
+        '&:hover': {
+            backgroundColor: customTheme.palette.primary.dark,
+            borderColor: customTheme.palette.divider
+        },
+        '&:focus': {
+            outline: 'none'
+        }
+    }
+};
 
 export default customTheme;

@@ -1,12 +1,7 @@
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-export default function ChartToggles({
-    showComposition,
-    setShowComposition
-    // showLowerUpper,
-    // setShowLowerUpper
-}) {
+export default function ChartToggles({ showComposition, setShowComposition }) {
     const theme = useTheme();
 
     return (
@@ -33,27 +28,12 @@ export default function ChartToggles({
                         onChange={(e) => setShowComposition(e.target.checked)}
                     />
                 }
-                label="Show composition"
+                label="Composition"
                 sx={{
                     m: 0,
                     '& .MuiFormControlLabel-label': { fontSize: 12 }
                 }}
             />
-            {/**
-             * Lower/Upper toggle disabled for now; original control preserved below for future use:
-             *
-             * <FormControlLabel
-             *   control={
-             *     <Switch
-             *       size="small"
-             *       checked={showLowerUpper}
-             *       onChange={(e) => setShowLowerUpper(e.target.checked)}
-             *     />
-             *   }
-             *   label="Show lower/upper estimates"
-             *   sx={{ m: 0, '& .MuiFormControlLabel-label': { fontSize: 12 } }}
-             * />
-             */}
         </Box>
     );
 }

@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
-    Credits,
+    Chart,
+    Title,
     Legend,
     Tooltip,
     XAxis,
@@ -9,7 +10,6 @@ import {
     PlotOptions
 } from '@highcharts/react';
 import { BarSeries } from '@highcharts/react/series/Bar';
-import ChartComponent from './ChartComponent';
 
 export default function FinalCompositionChart({ view }) {
     const theme = useTheme();
@@ -23,32 +23,23 @@ export default function FinalCompositionChart({ view }) {
     return (
         <Box
             sx={{
-                width: '100%',
-                maxWidth: 640
+                width: '100%'
             }}
         >
-            <ChartComponent
-                options={{
-                    chart: {
-                        height: 150
-                    }
-                }}
-            >
-                <Credits enabled={false} />
+            <Chart containerProps={{ style: { height: 200 } }}>
+                <Title>Final Composition</Title>
                 <YAxis visible={false} />
                 <Legend
                     reversed={true}
-                    symbolHeight={15}
-                    symbolWidth={15}
+                    symbolHeight={12}
+                    symbolWidth={12}
                     symbolRadius={4}
                 />
                 <Tooltip shared={true} />
                 <XAxis
-                    categories={[
-                        'Reinvest dividends',
-                        'Put dividends in the bank'
-                    ]}
+                    categories={['A', 'B']}
                     lineWidth={0}
+                    labels={{ style: { fontWeight: 600 } }}
                 />
                 <PlotOptions
                     series={{
@@ -62,26 +53,47 @@ export default function FinalCompositionChart({ view }) {
                 />
                 <BarSeries
                     data={[
-                        Math.max(0, reinvestGrowth),
-                        Math.max(0, bankGrowth)
+                        {
+                            y: Math.max(0, reinvestGrowth),
+                            borderColor: theme.palette.success.main
+                        },
+                        {
+                            y: Math.max(0, bankGrowth),
+                            borderColor: theme.palette.secondary.main
+                        }
                     ]}
                     name="Growth"
+                    color={theme.palette.success.light}
+                />
+                <BarSeries
+                    data={[
+                        {
+                            y: Math.max(0, reinvestDividends),
+                            borderColor: theme.palette.success.main
+                        },
+                        {
+                            y: Math.max(0, bankDividends),
+                            borderColor: theme.palette.secondary.main
+                        }
+                    ]}
+                    name="Dividends"
                     color={theme.palette.success.main}
                 />
                 <BarSeries
                     data={[
-                        Math.max(0, reinvestDividends),
-                        Math.max(0, bankDividends)
+                        {
+                            y: Math.max(0, principal),
+                            borderColor: theme.palette.success.main
+                        },
+                        {
+                            y: Math.max(0, principal),
+                            borderColor: theme.palette.secondary.main
+                        }
                     ]}
-                    name="Dividends"
-                    color={theme.palette.secondary.main}
-                />
-                <BarSeries
-                    data={[Math.max(0, principal), Math.max(0, principal)]}
                     name="Principal"
-                    color={theme.palette.primary.light}
+                    color={theme.palette.success.dark}
                 />
-            </ChartComponent>
+            </Chart>
         </Box>
     );
 }

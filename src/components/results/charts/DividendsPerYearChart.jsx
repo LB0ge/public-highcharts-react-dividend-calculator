@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/material/styles';
-import { Title, XAxis, Tooltip, Legend } from '@highcharts/react';
+import { Chart, Title, XAxis, Tooltip, Legend } from '@highcharts/react';
 import { ColumnSeries } from '@highcharts/react/series/Column';
-import ChartComponent from './ChartComponent';
 
 export default function DividendPayoutPerYearChart({ view, dividendMode }) {
     const theme = useTheme();
@@ -16,7 +15,9 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
     const mode = dividendMode === 'gross' ? 'gross' : 'net';
 
     const reinvestData = (
-        mode === 'gross' ? dividendsPerYearReinvestGross : dividendsPerYearReinvest
+        mode === 'gross'
+            ? dividendsPerYearReinvestGross
+            : dividendsPerYearReinvest
     ).slice();
     const bankData = (
         mode === 'gross' ? dividendsPerYearBankGross : dividendsPerYearBank
@@ -26,14 +27,30 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
     const tooltipHeader = `${modeLabel} dividends in year <strong>{point.x}</strong>:`;
 
     return (
-        <ChartComponent
+        <Chart
+            containerProps={{
+                style: {
+                    width: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                }
+            }}
             options={{
                 chart: { height: 280 }
             }}
         >
-            <Title>{`Dividend Payout Per Year (${modeLabel})`}</Title>
+            <Title>{`Dividends Per Year (${modeLabel})`}</Title>
             <Legend enabled={true} />
-            <XAxis tickInterval={1} title={{ text: 'Year' }} />
+            <XAxis
+                tickInterval={1}
+                title={{ text: 'Year' }}
+                min={0}
+                max={reinvestData.length - 0.5}
+                endOnTick={false}
+            />
             <Tooltip
                 shared={true}
                 valuePrefix={'$'}
@@ -41,15 +58,17 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
                 headerFormat={tooltipHeader + '<br/>'}
             />
             <ColumnSeries
-                name="Reinvest scenario"
+                name="Scenario A"
                 data={reinvestData}
                 color={theme.palette.success.main}
+                pointPlacement="on"
             />
             <ColumnSeries
-                name="Bank scenario"
+                name="Scenario B"
                 data={bankData}
-                color={theme.palette.primary.main}
+                color={theme.palette.secondary.main}
+                pointPlacement="on"
             />
-        </ChartComponent>
+        </Chart>
     );
 }
