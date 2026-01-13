@@ -10,6 +10,9 @@ Highcharts.setOptions({
     title: {
         text: ''
     },
+    credits: {
+        enabled: false
+    },
     tooltip: {
         valueDecimals: 0,
         valuePrefix: '$'
