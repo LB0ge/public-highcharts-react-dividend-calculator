@@ -1,7 +1,10 @@
 import { Box, FormControlLabel, Switch } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-export default function ChartToggles({ showComposition, setShowComposition }) {
+export default function CompositionToggle({
+    showComposition,
+    setShowComposition
+}) {
     const theme = useTheme();
 
     return (
@@ -28,7 +31,7 @@ export default function ChartToggles({ showComposition, setShowComposition }) {
                         onChange={(e) => setShowComposition(e.target.checked)}
                     />
                 }
-                label="Composition"
+                label="Composition (A)"
                 sx={{
                     m: 0,
                     '& .MuiFormControlLabel-label': { fontSize: 12 }

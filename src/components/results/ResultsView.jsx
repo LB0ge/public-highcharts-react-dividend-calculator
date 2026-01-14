@@ -1,27 +1,22 @@
 import { useCalculator } from '../../context/useCalculator';
 import { useState } from 'react';
-import {
-    Box,
-    useTheme,
-    ToggleButtonGroup,
-    ToggleButton,
-    useMediaQuery
-} from '@mui/material';
+import { Box, useTheme, useMediaQuery } from '@mui/material';
 
-import KpiCards from './SummaryCard';
+import SummaryCard from './SummaryCard';
 import FinalCompositionChart from './charts/FinalCompositionChart';
 import SharesOverTimeChart from './charts/SharesOverTimeChart';
 import InvestmentValuePerYearChart from './charts/InvestmentValuePerYearChart';
 import DividendsPerYearChart from './charts/DividendsPerYearChart';
-import ChartToggles from './ChartToggles';
+import CompositionToggle from './CompositionToggle';
+import DividendModeToggle from './DividendModeToggle';
 
 export default function ResultsView({ isFullscreen = false }) {
     const theme = useTheme();
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
     const { view, results, inputs } = useCalculator();
     const [showComposition, setShowComposition] = useState(false);
-    // const [showLowerUpper, setShowLowerUpper] = useState(true);
     const [dividendMode, setDividendMode] = useState('net');
+    const chartMinHeight = 300;
 
     return (
         <Box
@@ -43,7 +38,7 @@ export default function ResultsView({ isFullscreen = false }) {
                 }}
             >
                 <Box sx={{ flex: { xs: '1 1 auto', md: '1 1 65%' } }}>
-                    <KpiCards view={view} inputs={inputs} />
+                    <SummaryCard view={view} inputs={inputs} />
                 </Box>
                 <Box
                     sx={{
@@ -88,7 +83,7 @@ export default function ResultsView({ isFullscreen = false }) {
             <Box
                 sx={{
                     flex: 1,
-                    minHeight: 400,
+                    minHeight: chartMinHeight,
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
@@ -96,7 +91,7 @@ export default function ResultsView({ isFullscreen = false }) {
                 }}
             >
                 <Box sx={{ position: 'relative', mb: 1 }}>
-                    <ChartToggles
+                    <CompositionToggle
                         showComposition={showComposition}
                         setShowComposition={setShowComposition}
                     />
@@ -124,32 +119,18 @@ export default function ResultsView({ isFullscreen = false }) {
             <Box
                 sx={{
                     flex: 1,
-                    minHeight: 200,
+                    minHeight: chartMinHeight,
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'visible'
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        mb: 1,
-                        zIndex: 10
-                    }}
-                >
-                    <ToggleButtonGroup
-                        size="small"
-                        exclusive
-                        value={dividendMode}
-                        onChange={(_, val) => {
-                            if (val !== null) setDividendMode(val);
-                        }}
-                    >
-                        <ToggleButton value="net">Net</ToggleButton>
-                        <ToggleButton value="gross">Gross</ToggleButton>
-                    </ToggleButtonGroup>
+                <Box sx={{ mb: 1 }}>
+                    <DividendModeToggle
+                        dividendMode={dividendMode}
+                        setDividendMode={setDividendMode}
+                    />
                 </Box>
 
                 <Box

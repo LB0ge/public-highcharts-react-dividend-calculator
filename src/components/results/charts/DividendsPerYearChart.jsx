@@ -38,12 +38,8 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
                     bottom: 0
                 }
             }}
-            options={{
-                chart: { height: 280 }
-            }}
         >
             <Title>{`Dividends Per Year (${modeLabel})`}</Title>
-            <Legend enabled={true} />
             <XAxis
                 tickInterval={1}
                 title={{ text: 'Year' }}
