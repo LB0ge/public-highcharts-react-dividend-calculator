@@ -10,7 +10,7 @@ export default function DividendModeToggle({ dividendMode, setDividendMode }) {
                 position: 'absolute',
                 display: 'flex',
                 justifyContent: 'flex-end',
-                top: theme.spacing(-1),
+                top: theme.spacing(-2),
                 right: theme.spacing(0),
                 zIndex: 10
             }}

@@ -13,12 +13,12 @@ export default function CompositionToggle({
                 position: 'absolute',
                 display: 'flex',
                 flexDirection: 'column',
-                top: theme.spacing(-1),
+                top: theme.spacing(-2),
                 right: theme.spacing(0),
                 zIndex: 1,
                 bgcolor: 'background.paper',
                 border: `1px solid ${theme.palette.divider}`,
-                borderRadius: 1,
+                borderRadius: theme.shape.borderRadius,
                 px: 1,
                 py: 0.25
             }}
