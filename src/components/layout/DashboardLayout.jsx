@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Paper, IconButton, useTheme } from '@mui/material';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import CloseIcon from '@mui/icons-material/Close';
 import TuneIcon from '@mui/icons-material/Tune';
 import Header from './Header';
@@ -11,27 +9,7 @@ import Panel from './Panel';
 
 export default function DashboardLayout() {
     const theme = useTheme();
-    const resultsPaperRef = useRef(null);
-    const [resultsFull, setResultsFull] = useState(false);
     const [showFilters, setShowFilters] = useState(true);
-
-    useEffect(() => {
-        function onFullChange() {
-            const el =
-                document.fullscreenElement || document.webkitFullscreenElement;
-            setResultsFull(el === resultsPaperRef.current);
-        }
-
-        document.addEventListener('fullscreenchange', onFullChange);
-        document.addEventListener('webkitfullscreenchange', onFullChange);
-        return () => {
-            document.removeEventListener('fullscreenchange', onFullChange);
-            document.removeEventListener(
-                'webkitfullscreenchange',
-                onFullChange
-            );
-        };
-    }, []);
 
     const handleToggleFilters = () => {
         setShowFilters((prev) => !prev);
@@ -194,11 +172,10 @@ export default function DashboardLayout() {
                         }}
                     >
                         <Paper
-                            ref={resultsPaperRef}
                             elevation={2}
                             sx={{
                                 p: 2,
-                                height: resultsFull ? '100vh' : '100%',
+                                height: '100%',
                                 boxSizing: 'border-box',
                                 transition: 'all 200ms ease',
                                 flexGrow: 1,
@@ -208,59 +185,8 @@ export default function DashboardLayout() {
                                 position: 'relative'
                             }}
                         >
-                            <Panel
-                                title="Results"
-                                action={
-                                    <IconButton
-                                        size="small"
-                                        aria-label={
-                                            resultsFull
-                                                ? 'Exit fullscreen'
-                                                : 'Open results fullscreen'
-                                        }
-                                        onClick={async () => {
-                                            try {
-                                                if (!resultsFull) {
-                                                    if (
-                                                        resultsPaperRef.current
-                                                            ?.requestFullscreen
-                                                    ) {
-                                                        await resultsPaperRef.current.requestFullscreen();
-                                                    } else if (
-                                                        resultsPaperRef.current
-                                                            ?.webkitRequestFullscreen
-                                                    ) {
-                                                        // Safari
-                                                        resultsPaperRef.current.webkitRequestFullscreen();
-                                                    }
-                                                } else {
-                                                    if (
-                                                        document.fullscreenElement
-                                                    ) {
-                                                        await document.exitFullscreen();
-                                                    } else if (
-                                                        document.webkitFullscreenElement
-                                                    ) {
-                                                        document.webkitExitFullscreen();
-                                                    }
-                                                }
-                                            } catch (err) {
-                                                console.warn(
-                                                    'Fullscreen toggle failed',
-                                                    err
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        {resultsFull ? (
-                                            <FullscreenExitIcon />
-                                        ) : (
-                                            <FullscreenIcon />
-                                        )}
-                                    </IconButton>
-                                }
-                            >
-                                <ResultsView isFullscreen={resultsFull} />
+                            <Panel title="Results">
+                                <ResultsView />
                             </Panel>
                         </Paper>
                     </Box>

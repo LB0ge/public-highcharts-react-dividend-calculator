@@ -10,7 +10,7 @@ import DividendsPerYearChart from './charts/DividendsPerYearChart';
 import CompositionToggle from './CompositionToggle';
 import DividendModeToggle from './DividendModeToggle';
 
-export default function ResultsView({ isFullscreen = false }) {
+export default function ResultsView() {
     const theme = useTheme();
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
     const { view, results, inputs } = useCalculator();
@@ -23,10 +23,10 @@ export default function ResultsView({ isFullscreen = false }) {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: theme.spacing(isFullscreen ? 2 : 3),
+                gap: theme.spacing(3),
                 width: '100%',
                 height: '100%',
-                overflow: isFullscreen ? 'hidden' : 'visible'
+                overflow: 'visible'
             }}
         >
             {/* Description and Composition chart side by side */}
@@ -63,7 +63,7 @@ export default function ResultsView({ isFullscreen = false }) {
                         }}
                     >
                         <FinalCompositionChart
-                            key={`composition-${isFullscreen}-${isMdUp}`}
+                            key={`composition-${isMdUp}`}
                             view={view}
                         />
                     </Box>
