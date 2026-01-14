@@ -193,13 +193,6 @@ const customTheme = createTheme({
                     fontWeight: 500
                 }
             }
-        },
-        MuiBox: {
-            styleOverrides: {
-                root: {
-                    transition: 'all 0.2s ease'
-                }
-            }
         }
     }
 });
