@@ -20,12 +20,9 @@ export default function FinalCompositionChart({ view }) {
         bankDividends,
         bankGrowth
     } = view;
+
     return (
-        <Box
-            sx={{
-                width: '100%'
-            }}
-        >
+        <Box sx={{ width: '100%' }}>
             <Chart containerProps={{ style: { height: 200 } }}>
                 <Title>Final Composition</Title>
                 <YAxis visible={false} />
@@ -55,43 +52,43 @@ export default function FinalCompositionChart({ view }) {
                     data={[
                         {
                             y: Math.max(0, reinvestGrowth),
-                            borderColor: theme.palette.success.main
+                            borderColor: theme.palette.success.dark
                         },
                         {
                             y: Math.max(0, bankGrowth),
-                            borderColor: theme.palette.secondary.main
+                            borderColor: theme.palette.secondary.dark
                         }
                     ]}
                     name="Growth"
-                    color={theme.palette.success.light}
+                    color={theme.palette.primary.light}
                 />
                 <BarSeries
                     data={[
                         {
                             y: Math.max(0, reinvestDividends),
-                            borderColor: theme.palette.success.main
+                            borderColor: theme.palette.success.dark
                         },
                         {
                             y: Math.max(0, bankDividends),
-                            borderColor: theme.palette.secondary.main
+                            borderColor: theme.palette.secondary.dark
                         }
                     ]}
                     name="Dividends"
-                    color={theme.palette.success.main}
+                    color={theme.palette.primary.main}
                 />
                 <BarSeries
                     data={[
                         {
                             y: Math.max(0, principal),
-                            borderColor: theme.palette.success.main
+                            borderColor: theme.palette.success.dark
                         },
                         {
                             y: Math.max(0, principal),
-                            borderColor: theme.palette.secondary.main
+                            borderColor: theme.palette.secondary.dark
                         }
                     ]}
                     name="Principal"
-                    color={theme.palette.success.dark}
+                    color={theme.palette.primary.dark}
                 />
             </Chart>
         </Box>
