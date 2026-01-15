@@ -6,7 +6,8 @@ An interactive React application that compares two dividend strategies: **reinve
 
 -   📊 **Interactive Visualizations** - Real-time charts powered by Highcharts
 -   💰 **Dual Strategy Comparison** - Reinvestment vs. Banking scenarios
--   **Dividend Tracking** - View gross and net dividend payouts per year
+-   **Dividend Tracking** - View gross and net dividend payouts per year with mode toggle
+-   **Composition Insights** - Optional composition stack to visualize share value vs. accumulated cash
 -   🎨 **Modern UI** - Built with Material-UI v7 and custom theming
 -   ⚡ **Fast & Responsive** - Optimized with React 19 and Vite
 
@@ -83,15 +84,16 @@ highcharts-react-dividend-calculator/
 │   │   │   └── Panel.jsx
 │   │   └── results/        # Results display components
 │   │       ├── ResultsView.jsx
-│   │       ├── KpiCard.jsx
-│   │       ├── KpiCards.jsx
-│   │       ├── ChartToggles.jsx
+│   │       ├── SummaryCard.jsx
+│   │       ├── CompositionToggle.jsx
+│   │       ├── DividendModeToggle.jsx
 │   │       └── charts/
 │   │           ├── chart-defaults.js
 │   │           ├── ChartComponent.jsx
 │   │           ├── InvestmentValuePerYearChart.jsx
-│   │           ├── DividendPayoutPerYearChart.jsx
-│   │           └── FinalCompositionChart.jsx
+│   │           ├── DividendsPerYearChart.jsx
+│   │           ├── FinalCompositionChart.jsx
+│   │           └── SharesOverTimeChart.jsx
 │   ├── context/            # React Context for state management
 │   │   ├── CalculatorContext.js
 │   │   ├── CalculatorProvider.jsx
@@ -143,20 +145,25 @@ Using the **Highcharts React v4 JSX API**:
 ### Key Components
 
 -   **DashboardLayout** - Two-panel layout (inputs on left, results on right)
--   **InputView** - Form sections for position, dividends, growth, bank & tax
--   **ResultsView** - KPI cards and charts with toggle controls
+-   **InputView** - FoSummary card and charts with toggle controls
+-   **UI Controls**:
+    -   `CompositionToggle` - Toggle to show/hide composition stack on the investment value chart
+    -   `DividendModeToggle` - Switch between net and gross dividend display
 -   **Charts**:
     -   `InvestmentValuePerYearChart` - Time series showing portfolio value over time with optional composition stack
-    -   `DividendPayoutPerYearChart` - Column chart showing yearly dividends (net or gross)
+    -   `DividendsPerYearChart` - Column chart showing yearly dividends (net or gross)
+    -   `FinalCompositionChart` - Stacked bar chart comparing final portfolio composition
+    -   `SharesOverTimeChart` - Line chart tracking share count growth over times)
     -   `FinalCompositionChart` - Stacked bar chart comparing final portfolio composition
 
 ## Usage
 
-1. **Set Initial Position**: Number of shares and price per share
-2. **Configure Dividends**: Annual dividend yield percentage
-3. **Set Growth Expectations**: Stock price appreciation percentage
-4. **Adjust Bank & Tax**: Savings interest rate and dividend tax percentage
-5. **View Results**: KPI cards show final values and extra gain from reinvestment; charts visualize growth over time
+1. \*\*Set Initial PosiSummary card shows final values and extra gain from reinvestment; charts visualize growth over time
+2. **Toggle Views**: Switch between net/gross dividends and show/hide portfolio composition details
+3. **Configure Dividends**: Annual dividend yield percentage
+4. **Set Growth Expectations**: Stock price appreciation percentage
+5. **Adjust Bank & Tax**: Savings interest rate and dividend tax percentage
+6. **View Results**: KPI cards show final values and extra gain from reinvestment; charts visualize growth over time
 
 ### Example Scenarios
 
@@ -178,7 +185,5 @@ Using the **Highcharts React v4 JSX API**:
 
 ## Future Enhancements
 
--   [ ] Responsive layout improvements
 -   [ ] Dark mode support (?)
--   [ ] Ensure x-axis ticks are always aligned between value chart and dividend chart (currently an issue when y-axis labels differ in width).
 -   [ ] Fix first chart render series color issue.
