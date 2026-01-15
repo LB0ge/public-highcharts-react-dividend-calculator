@@ -1,4 +1,4 @@
-import Highcharts from 'highcharts/highcharts.src';
+import Highcharts from 'highcharts';
 import 'highcharts/modules/accessibility';
 import 'highcharts/highcharts-more';
 
@@ -21,5 +21,3 @@ Highcharts.setOptions({
         title: { text: '' }
     }
 });
-
-export default Highcharts;
