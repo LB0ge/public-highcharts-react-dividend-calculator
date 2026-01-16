@@ -185,5 +185,6 @@ Using the **Highcharts React v4 JSX API**:
 
 ## Future Enhancements
 
--   [ ] Dark mode support (?)
+-   [ ] Dark mode support (?).
 -   [ ] Fix first chart render series color issue.
+-   [ ] Convert to TypeScript (?).
