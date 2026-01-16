@@ -25,19 +25,27 @@ export default function Header() {
                     justifyContent: 'space-between'
                 }}
             >
-                <Typography
-                    variant="h4"
-                    sx={{
-                        fontWeight: 800,
-                        letterSpacing: '-0.02em',
-                        background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent'
-                    }}
-                >
-                    Dividend Reinvestment Calculator
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box
+                        component="img"
+                        src="/vite.svg"
+                        alt="App logo"
+                        sx={{ width: 42, height: 42, display: 'block' }}
+                    />
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            fontWeight: 800,
+                            letterSpacing: '-0.02em',
+                            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent'
+                        }}
+                    >
+                        Dividend Reinvestment Calculator
+                    </Typography>
+                </Box>
 
                 <IconButton
                     size="small"
