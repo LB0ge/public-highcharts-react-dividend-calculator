@@ -28,7 +28,7 @@ export default function Header() {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Box
                         component="img"
-                        src="/vite.svg"
+                        src="/logo.svg"
                         alt="App logo"
                         sx={{ width: 42, height: 42, display: 'block' }}
                     />
