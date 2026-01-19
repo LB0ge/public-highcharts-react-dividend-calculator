@@ -19,6 +19,10 @@ An interactive React application that compares two dividend strategies: **reinve
 -   **Highcharts v12** - Interactive charting via `@highcharts/react` v4 JSX API
 -   **ESLint v9** - Code quality with flat config
 
+## Environment
+
+Developed with Node 22.14.0 (see .nvmrc/.node-version).
+
 ## Getting Started
 
 ### Installation
