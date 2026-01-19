@@ -93,7 +93,6 @@ highcharts-react-dividend-calculator/
 │   │       ├── DividendModeToggle.jsx
 │   │       └── charts/
 │   │           ├── chart-defaults.js
-│   │           ├── ChartComponent.jsx
 │   │           ├── InvestmentValuePerYearChart.jsx
 │   │           ├── DividendsPerYearChart.jsx
 │   │           ├── FinalCompositionChart.jsx
@@ -141,15 +140,16 @@ Pure, deterministic functions in `src/utils/calculations.js`:
 
 Using the **Highcharts React v4 JSX API**:
 
--   Charts render via JSX components (`HighchartsChart`, `SplineSeries`, `ColumnSeries`, etc.)
--   `ChartComponent` wrapper provides consistent sizing and shared options
+-   Charts render via JSX components (`Chart`, `SplineSeries`, `ColumnSeries`, etc.)
+-   Shared options are set in `chart-defaults.js` and applied globally
 -   Theme colors pulled from MUI theme for visual consistency
 -   Animations preserved when toggling between net/gross dividends
 
 ### Key Components
 
 -   **DashboardLayout** - Two-panel layout (inputs on left, results on right)
--   **InputView** - FoSummary card and charts with toggle controls
+-   **InputView** - Groups all input sections (position, dividends, growth, taxes)
+-   **ResultsView** - Summary card plus charts with toggle controls
 -   **UI Controls**:
     -   `CompositionToggle` - Toggle to show/hide composition stack on the investment value chart
     -   `DividendModeToggle` - Switch between net and gross dividend display
@@ -157,17 +157,16 @@ Using the **Highcharts React v4 JSX API**:
     -   `InvestmentValuePerYearChart` - Time series showing portfolio value over time with optional composition stack
     -   `DividendsPerYearChart` - Column chart showing yearly dividends (net or gross)
     -   `FinalCompositionChart` - Stacked bar chart comparing final portfolio composition
-    -   `SharesOverTimeChart` - Line chart tracking share count growth over times)
-    -   `FinalCompositionChart` - Stacked bar chart comparing final portfolio composition
+    -   `SharesOverTimeChart` - Line chart tracking share count growth over time
 
 ## Usage
 
-1. \*\*Set Initial PosiSummary card shows final values and extra gain from reinvestment; charts visualize growth over time
-2. **Toggle Views**: Switch between net/gross dividends and show/hide portfolio composition details
-3. **Configure Dividends**: Annual dividend yield percentage
-4. **Set Growth Expectations**: Stock price appreciation percentage
-5. **Adjust Bank & Tax**: Savings interest rate and dividend tax percentage
-6. **View Results**: KPI cards show final values and extra gain from reinvestment; charts visualize growth over time
+1. **Set initial position**: Shares owned, price per share, holding period
+2. **Configure dividends**: Annual dividend yield percentage
+3. **Set growth expectations**: Stock price appreciation percentage
+4. **Adjust bank & tax**: Savings interest rate and dividend tax percentage
+5. **Toggle views**: Switch net/gross dividends; show/hide composition stack
+6. **View results**: Summary card and charts update instantly as inputs change
 
 ### Example Scenarios
 
