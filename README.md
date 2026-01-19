@@ -188,3 +188,4 @@ Using the **Highcharts React v4 JSX API**:
 -   [ ] Dark mode support (?).
 -   [ ] Fix first chart render series color issue.
 -   [ ] Convert to TypeScript (?).
+-   [ ] Ensure x-axis ticks are always aligned between value chart and dividend chart (currently an issue when y-axis labels differ in width).
