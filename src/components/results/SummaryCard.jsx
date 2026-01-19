@@ -60,17 +60,36 @@ export default function KpiCards({ view, inputs }) {
                     </Box>{' '}
                     — Net dividends are withdrawn and deposited into a savings
                     account earning <strong>{bankInterest}%</strong> annual
-                    interest (after tax), with an estimated combined value of{' '}
+                    interest (after tax), with an estimated combined value of
                     <strong>{scenarioBValue}</strong> at maturity.
                 </Typography>
                 <Typography
                     variant="body2"
                     sx={{ mt: 2, color: 'text.secondary', fontStyle: 'italic' }}
                 >
-                    The projected difference between strategies is{' '}
-                    <strong>{difference}</strong>. Both scenarios incorporate
-                    dividend growth projections and equity appreciation
-                    assumptions.
+                    The projected difference between strategies (
+                    <Box
+                        component="span"
+                        sx={{
+                            fontWeight: 700,
+                            color: theme.palette.success.dark
+                        }}
+                    >
+                        A
+                    </Box>
+                    -
+                    <Box
+                        component="span"
+                        sx={{
+                            fontWeight: 700,
+                            color: theme.palette.secondary.main
+                        }}
+                    >
+                        B
+                    </Box>
+                    ) is <strong>{difference}</strong>. Both scenarios
+                    incorporate dividend growth projections and equity
+                    appreciation assumptions.
                 </Typography>
             </CardContent>
         </Card>
