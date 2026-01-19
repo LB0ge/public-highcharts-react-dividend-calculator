@@ -14,14 +14,12 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
 
     const mode = dividendMode === 'gross' ? 'gross' : 'net';
 
-    const reinvestData = (
+    const reinvestData =
         mode === 'gross'
             ? dividendsPerYearReinvestGross
-            : dividendsPerYearReinvest
-    ).slice();
-    const bankData = (
-        mode === 'gross' ? dividendsPerYearBankGross : dividendsPerYearBank
-    ).slice();
+            : dividendsPerYearReinvest;
+    const bankData =
+        mode === 'gross' ? dividendsPerYearBankGross : dividendsPerYearBank;
 
     const modeLabel = mode === 'gross' ? 'Gross' : 'Net';
     const tooltipHeader = `${modeLabel} dividends in year <strong>{point.x}</strong>:`;
