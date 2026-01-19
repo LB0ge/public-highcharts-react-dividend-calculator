@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles';
-import { Chart, Title, XAxis, Tooltip, Legend } from '@highcharts/react';
+import { Chart, Title, XAxis, Tooltip } from '@highcharts/react';
 import { ColumnSeries } from '@highcharts/react/series/Column';
 
 export default function DividendPayoutPerYearChart({ view, dividendMode }) {
@@ -54,16 +54,20 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
                 headerFormat={tooltipHeader + '<br/>'}
             />
             <ColumnSeries
-                name="Scenario A"
                 data={reinvestData}
-                color={theme.palette.success.main}
-                pointPlacement="on"
+                options={{
+                    name: 'Scenario A',
+                    color: theme.palette.success.main,
+                    pointPlacement: 'on'
+                }}
             />
             <ColumnSeries
-                name="Scenario B"
                 data={bankData}
-                color={theme.palette.secondary.main}
-                pointPlacement="on"
+                options={{
+                    name: 'Scenario B',
+                    color: theme.palette.secondary.main,
+                    pointPlacement: 'on'
+                }}
             />
         </Chart>
     );

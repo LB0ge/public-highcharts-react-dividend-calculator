@@ -73,10 +73,12 @@ export default function SharesOverTimeChart({ results }) {
                 />
                 <LineSeries
                     data={sharesData}
-                    name="Shares"
-                    color={theme.palette.success.main}
-                    marker={{ enabled: false }}
-                    step="left"
+                    options={{
+                        name: 'Shares',
+                        color: theme.palette.success.main,
+                        marker: { enabled: false },
+                        step: 'left'
+                    }}
                 />
             </Chart>
         </Box>

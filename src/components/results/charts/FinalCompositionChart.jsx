@@ -59,8 +59,10 @@ export default function FinalCompositionChart({ view }) {
                             borderColor: theme.palette.secondary.dark
                         }
                     ]}
-                    name="Growth"
-                    color={theme.palette.primary.light}
+                    options={{
+                        name: 'Growth',
+                        color: theme.palette.primary.light
+                    }}
                 />
                 <BarSeries
                     data={[
@@ -73,8 +75,10 @@ export default function FinalCompositionChart({ view }) {
                             borderColor: theme.palette.secondary.dark
                         }
                     ]}
-                    name="Dividends"
-                    color={theme.palette.primary.main}
+                    options={{
+                        name: 'Dividends',
+                        color: theme.palette.primary.main
+                    }}
                 />
                 <BarSeries
                     data={[
@@ -87,8 +91,10 @@ export default function FinalCompositionChart({ view }) {
                             borderColor: theme.palette.secondary.dark
                         }
                     ]}
-                    name="Principal"
-                    color={theme.palette.primary.dark}
+                    options={{
+                        name: 'Principal',
+                        color: theme.palette.primary.dark
+                    }}
                 />
             </Chart>
         </Box>
