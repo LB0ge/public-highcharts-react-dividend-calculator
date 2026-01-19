@@ -60,7 +60,7 @@ export default function KpiCards({ view, inputs }) {
                     </Box>{' '}
                     — Net dividends are withdrawn and deposited into a savings
                     account earning <strong>{bankInterest}%</strong> annual
-                    interest (after tax), with an estimated combined value of
+                    interest (after tax), with an estimated combined value of{' '}
                     <strong>{scenarioBValue}</strong> at maturity.
                 </Typography>
                 <Typography
