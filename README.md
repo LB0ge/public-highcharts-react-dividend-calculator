@@ -17,7 +17,6 @@ An interactive React application that compares two dividend strategies: **reinve
 -   **Vite** - Fast build tool and dev server
 -   **Material-UI v7** - Component library with Emotion for styling
 -   **Highcharts v12** - Interactive charting via `@highcharts/react` v4 JSX API
--   **ESLint v9** - Code quality with flat config
 
 ## Getting Started
 
@@ -51,14 +50,6 @@ Preview the production build:
 
 ```bash
 npm run preview
-```
-
-### Linting
-
-Run ESLint to check code quality:
-
-```bash
-npm run lint
 ```
 
 ## Project Structure
