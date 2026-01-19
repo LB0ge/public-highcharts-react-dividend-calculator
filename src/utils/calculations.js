@@ -15,12 +15,7 @@ function calculateScenario(inputs, scenarioType) {
         dividendTaxPercent
     } = inputs;
 
-    // Accept both a flat number or an object (for backward compatibility)
-    const priceGrowthAnnual = percentToRate(
-            typeof stockAppreciationPercent === 'object'
-                ? stockAppreciationPercent.expected
-                : stockAppreciationPercent
-        ),
+    const priceGrowthAnnual = percentToRate(stockAppreciationPercent),
         bankRateAnnual = percentToRate(bankInterestPercent),
         dividendYieldAnnual = percentToRate(dividendYieldPercent);
 

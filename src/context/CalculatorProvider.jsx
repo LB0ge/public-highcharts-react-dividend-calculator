@@ -12,7 +12,7 @@ const defaultInputs = {
 
     dividendYieldPercent: 6.5,
 
-    stockAppreciationPercent: { lower: 3, expected: 4, upper: 5 },
+    stockAppreciationPercent: 4,
 
     bankInterestPercent: 4.2,
     dividendTaxPercent: 25
@@ -20,8 +20,6 @@ const defaultInputs = {
 
 export function CalculatorProvider({ children }) {
     const [inputs, setInputs] = useState(defaultInputs);
-
-    // const initialInvestment = inputs.numberOfShares * inputs.pricePerShare;
 
     const results = useMemo(() => runAllCalculations(inputs), [inputs]);
     const view = useMemo(() => buildResultsViewModel(results), [results]);
