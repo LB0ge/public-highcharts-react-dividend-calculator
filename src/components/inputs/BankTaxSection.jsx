@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
 import { useCalculator } from '../../context/useCalculator';
+import ValueDisplay from './ValueDisplay';
 
 export default function BankTaxSection() {
     const { inputs, setInput } = useCalculator();
@@ -16,7 +17,10 @@ export default function BankTaxSection() {
             </Typography>
 
             <Box sx={{ px: 2 }}>
-                <Typography variant="body2">Bank interest rate</Typography>
+                <ValueDisplay
+                    label="Bank Interest Rate"
+                    value={`${inputs.bankInterestPercent ?? 0}%`}
+                />
                 <Slider
                     aria-label="Interest Rate"
                     value={inputs.bankInterestPercent ?? 0}
@@ -42,7 +46,10 @@ export default function BankTaxSection() {
             </Box>
 
             <Box sx={{ px: 2 }}>
-                <Typography variant="body2">Dividend tax</Typography>
+                <ValueDisplay
+                    label="Dividend tax"
+                    value={`${inputs.dividendTaxPercent ?? 0}%`}
+                />
                 <Slider
                     aria-label="Dividend tax"
                     value={inputs.dividendTaxPercent ?? 0}

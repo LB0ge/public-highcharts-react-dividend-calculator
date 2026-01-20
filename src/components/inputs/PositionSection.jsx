@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import NumberField from './NumberField';
+import ValueDisplay from './ValueDisplay';
 import { useCalculator } from '../../context/useCalculator';
 import { formatCurrency } from '../../utils/currency';
 
@@ -10,7 +11,7 @@ export default function PositionSection() {
         setInput(key, value === '' ? 0 : value);
     };
 
-    // Smart step: jump to 1.00 when under $1, then increment by 1
+    // Smart step: jump to 1.00 when under $1, increment by 1 otherwise
     const priceStep =
         inputs.pricePerShare > 0 && inputs.pricePerShare < 1
             ? 1 - inputs.pricePerShare
@@ -38,15 +39,12 @@ export default function PositionSection() {
                 onChange={handleChange('pricePerShare')}
             />
 
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'baseline' }}>
-                <Typography color="text.secondary">Principal:</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                    {formatCurrency(
-                        (inputs.numberOfShares ?? 0) *
-                            (inputs.pricePerShare ?? 0)
-                    )}
-                </Typography>
-            </Box>
+            <ValueDisplay
+                label="Principal"
+                value={formatCurrency(
+                    (inputs.numberOfShares ?? 0) * (inputs.pricePerShare ?? 0)
+                )}
+            />
         </Box>
     );
 }

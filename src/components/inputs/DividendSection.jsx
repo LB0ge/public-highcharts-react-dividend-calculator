@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import Slider from '@mui/material/Slider';
 import NumberField from './NumberField';
+import ValueDisplay from './ValueDisplay';
 import { useCalculator } from '../../context/useCalculator';
 
 export default function DividendSection() {
@@ -20,7 +21,10 @@ export default function DividendSection() {
             </Typography>
 
             <Box sx={{ px: 2 }}>
-                <Typography variant="body2">Annual dividend yield</Typography>
+                <ValueDisplay
+                    label="Annual dividend yield"
+                    value={`${inputs.dividendYieldPercent ?? 0}%`}
+                />
                 <Slider
                     aria-label="Annual dividend yield"
                     value={inputs.dividendYieldPercent ?? 0}

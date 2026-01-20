@@ -12,7 +12,7 @@ export default function GrowthSection() {
                 Growth assumptions
             </Typography>
             <NumberField
-                label="Annual stock appreciation"
+                label={'Annual stock appreciation'}
                 value={inputs.stockAppreciationPercent ?? 0}
                 step={step}
                 min={-99.9}
