@@ -10,6 +10,12 @@ export default function PositionSection() {
         setInput(key, value === '' ? 0 : value);
     };
 
+    // Smart step: jump to 1.00 when under $1, then increment by 1
+    const priceStep =
+        inputs.pricePerShare > 0 && inputs.pricePerShare < 1
+            ? 1 - inputs.pricePerShare
+            : 1;
+
     return (
         <Box sx={{ display: 'grid', gap: 2 }}>
             <Typography variant="h6" color="text.secondary">
@@ -26,7 +32,8 @@ export default function PositionSection() {
             <NumberField
                 label="Price per share"
                 value={inputs.pricePerShare ?? 0}
-                min={0}
+                min={0.01}
+                step={priceStep}
                 unit="$"
                 onChange={handleChange('pricePerShare')}
             />
