@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
 import { formatCurrency } from '../../utils/currency';
 
-export default function KpiCards({ view, inputs }) {
+export default function SummaryCard({ view, inputs }) {
     const theme = useTheme();
     const { finalReinvestmentValue, finalBankValue, principal } = view;
 
