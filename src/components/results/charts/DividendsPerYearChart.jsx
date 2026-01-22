@@ -5,23 +5,31 @@ import { ColumnSeries } from '@highcharts/react/series/Column';
 export default function DividendPayoutPerYearChart({ view, dividendMode }) {
     const theme = useTheme();
 
-    const {
-        dividendsPerYearReinvest,
-        dividendsPerYearBank,
-        dividendsPerYearReinvestGross,
-        dividendsPerYearBankGross
-    } = view;
+    // Clone arrays to prevent Highcharts from mutating the view model data.
+    // Highcharts mutates input arrays internally during processing, which would
+    // corrupt the memoized view model when the same array references are reused.
+    const reinvestData = [
+        ...(dividendMode === 'gross'
+            ? view.dividendsPerYearReinvestGross
+            : view.dividendsPerYearReinvest)
+    ];
+    const bankData = [
+        ...(dividendMode === 'gross'
+            ? view.dividendsPerYearBankGross
+            : view.dividendsPerYearBank)
+    ];
 
-    const mode = dividendMode === 'gross' ? 'gross' : 'net';
+    // Before fix: direct references (causes mutation without cloning):
+    // const reinvestData =
+    //     dividendMode === 'gross'
+    //         ? view.dividendsPerYearReinvestGross
+    //         : view.dividendsPerYearReinvest;
+    // const bankData =
+    //     dividendMode === 'gross'
+    //         ? view.dividendsPerYearBankGross
+    //         : view.dividendsPerYearBank;
 
-    const reinvestData =
-        mode === 'gross'
-            ? dividendsPerYearReinvestGross
-            : dividendsPerYearReinvest;
-    const bankData =
-        mode === 'gross' ? dividendsPerYearBankGross : dividendsPerYearBank;
-
-    const modeLabel = mode === 'gross' ? 'Gross' : 'Net';
+    const modeLabel = dividendMode === 'gross' ? 'Gross' : 'Net';
     const tooltipHeader = `${modeLabel} dividends in year <strong>{point.x}</strong>:`;
 
     return (
@@ -52,16 +60,20 @@ export default function DividendPayoutPerYearChart({ view, dividendMode }) {
                 headerFormat={tooltipHeader + '<br/>'}
             />
             <ColumnSeries
+                key={`dividends-reinvest-${dividendMode}`}
                 data={reinvestData}
                 options={{
+                    id: 'dividends-reinvest',
                     name: 'Scenario A',
                     color: theme.palette.success.main,
                     pointPlacement: 'on'
                 }}
             />
             <ColumnSeries
+                key={`dividends-bank-${dividendMode}`}
                 data={bankData}
                 options={{
+                    id: 'dividends-bank',
                     name: 'Scenario B',
                     color: theme.palette.secondary.main,
                     pointPlacement: 'on'
